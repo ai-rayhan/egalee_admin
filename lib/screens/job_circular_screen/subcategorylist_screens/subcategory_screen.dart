@@ -1,23 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:egalee_admin/screens/job_circular_screen/subcategory_screens/add_subcategory_screen.dart';
+import 'package:egalee_admin/screens/job_circular_screen/subcategorylist_screens/add_subcategory_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../job_screens/all_jobs_screen.dart';
 
-class SubCategoryScreen extends StatefulWidget {
-  const SubCategoryScreen({super.key, required this.category});
+class SubCategoryListScreen extends StatefulWidget {
+  const SubCategoryListScreen({super.key, required this.category});
   final String category;
 
   @override
-  State<SubCategoryScreen> createState() => _SubCategoryScreenState();
+  State<SubCategoryListScreen> createState() => _SubCategoryListScreenState();
 }
 
-class _SubCategoryScreenState extends State<SubCategoryScreen> {
+class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  delesubcategory(id) {
+    _firestore
+        .collection('job_circular')
+        .doc(widget.category.replaceAll(' ', ''))
+        .collection('subcategory')
+        .doc(id)
+        .delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.category} subcategoryList"),
+        title: Text(widget.category),
         actions: [
           IconButton(
               onPressed: () {
@@ -60,6 +70,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               // Access individual document data using documents[index]
               final documentData =
                   documents[index].data() as Map<String, dynamic>;
+              final subcategoryId = documents[index].id;
 
               // Display the data in whatever way you want, for example:
               return ListTile(
@@ -76,8 +87,12 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     ),
                   );
                 },
-                // leading: Image.network(documentData['image']),
-                // Other widgets to display additional data
+                leading: Image.network(documentData['image'] ?? ''),
+                trailing: GestureDetector(
+                    onTap: () {
+                      delesubcategory(subcategoryId);
+                    },
+                    child: Icon(Icons.delete)),
               );
             },
           );

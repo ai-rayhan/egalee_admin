@@ -14,6 +14,18 @@ class AllJobScreen extends StatefulWidget {
 }
 
 class _AllJobScreenState extends State<AllJobScreen> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  deleteJobById(id) async {
+    await _firestore
+        .collection('job_circular')
+        .doc(widget.category.replaceAll(' ', ''))
+        .collection('subcategory')
+        .doc(widget.subcategoryId)
+        .collection('allposts')
+        .doc(id)
+        .delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,24 +77,29 @@ class _AllJobScreenState extends State<AllJobScreen> {
               // Access individual document data using documents[index]
               final documentData =
                   documents[index].data() as Map<String, dynamic>;
+              final jobId = documents[index].id;
 
               // Display the data in whatever way you want, for example:
               return ListTile(
                 title: Text(documentData['title']),
                 subtitle: Text(documentData['subtitle']),
                 onTap: () {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => AllJobScreen(
-                        category: widget.category,
-                        subcategoryId: documents[index].id,
-                      ),
-                    ),
-                  );
+                  // Navigator.push<void>(
+                  //   context,
+                  //   MaterialPageRoute<void>(
+                  //     builder: (BuildContext context) => AllJobScreen(
+                  //       category: widget.category,
+                  //       subcategoryId: documents[index].id,
+                  //     ),
+                  //   ),
+                  // );
                 },
-                // leading: Image.network(documentData['image']),
-                // Other widgets to display additional data
+                leading: Image.network(documentData['image']),
+                trailing: GestureDetector(
+                    onTap: () {
+                      deleteJobById(jobId);
+                    },
+                    child: Icon(Icons.delete)),
               );
             },
           );
