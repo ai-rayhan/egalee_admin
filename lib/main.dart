@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Egalee Admin',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        inputDecorationTheme: InputDecorationTheme(border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10.0)),))
       ),
       home:HomeScreen(),
     );

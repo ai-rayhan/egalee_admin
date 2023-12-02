@@ -1,5 +1,7 @@
+import 'dart:io';
 
-
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/data/firebase_caller/firestore/firestore_caller.dart';
@@ -14,23 +16,57 @@ class AddJobCategoryScreen extends StatefulWidget {
 
 class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _idController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _subtitleController = TextEditingController();
-  final TextEditingController _imageController = TextEditingController();
 
   @override
   void dispose() {
-    _idController.dispose();
     _titleController.dispose();
     _subtitleController.dispose();
-    _imageController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+  }
+
+  File? _file;
+  String? imagelink;
+  Future<void> uploadFile() async {
+    try {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Uploading')));
+      String fileName = _file!.path.split('/').last; // Extract file name
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child(fileName);
+      UploadTask uploadTask = storageReference.putFile(
+          _file!, SettableMetadata(contentType: 'text/plain'));
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+      setState(() {
+        imagelink = downloadURL;
+      });
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Upload Success')));
+      print("File uploaded. Download URL: $downloadURL");
+    } catch (e) {
+      print("Error uploading file: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An error occurred while uploading')));
+    }
+  }
+
+  Future<void> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      setState(() {
+        _file = File(result.files.single.path!);
+      });
+    } else {
+      print("No file selected");
+    }
   }
 
   @override
@@ -46,16 +82,6 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                controller: _idController,
-                decoration: InputDecoration(labelText: 'ID'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter ID';
-                  }
-                  return null;
-                },
-              ),
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(labelText: 'Title'),
@@ -76,16 +102,18 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _imageController,
-                decoration: InputDecoration(labelText: 'Image URL'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter Image URL';
-                  }
-                  return null;
-                },
-              ),
+                GestureDetector(
+                  onTap: () async {
+                    await pickFile(); // Pick file using file_picker
+                    if (_file != null) {
+                      await uploadFile();
+                    }
+                  },
+                  child: TextFormField(
+                    enabled: false,
+                    decoration: const InputDecoration(labelText: 'Image URL'),
+                  ),
+                ),
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: _addJobCategoryToFirestore,
@@ -97,7 +125,7 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
       ),
     );
   }
-  
+
   void _addJobCategoryToFirestore() {
     if (_formKey.currentState!.validate()) {
       CollectionReference collectionReference = FirebaseFirestore.instance
@@ -105,20 +133,18 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
           .doc(widget.category.replaceAll(' ', ''))
           .collection('subcategory');
       var data = {
-        'id': _idController.text,
         'title': _titleController.text,
         'subtitle': _subtitleController.text,
-        'image': _imageController.text,
+        'image': imagelink
       };
       PostRequest.execute(collectionReference, data).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Job Category added to Firestore')),
         );
         // Clear text fields after adding data
-        _idController.clear();
+
         _titleController.clear();
         _subtitleController.clear();
-        _imageController.clear();
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to add Job Category: $error')),
