@@ -211,6 +211,22 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 const SizedBox(
                   height: 20,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Locked Content"),
+                    Checkbox(
+                        value: _islocked,
+                        onChanged: (value) {
+                          setState(() {
+                            _islocked = !_islocked;
+                          });
+                        })
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                   onPressed: _addNewJob,
                   child: const Text('Add New Job'),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'add_new_job_screen.dart';
+import 'job_details_screen.dart';
 
 class AllJobScreen extends StatefulWidget {
   const AllJobScreen(
@@ -84,15 +85,14 @@ class _AllJobScreenState extends State<AllJobScreen> {
                 title: Text(documentData['title']),
                 subtitle: Text(documentData['subtitle']),
                 onTap: () {
-                  // Navigator.push<void>(
-                  //   context,
-                  //   MaterialPageRoute<void>(
-                  //     builder: (BuildContext context) => AllJobScreen(
-                  //       category: widget.category,
-                  //       subcategoryId: documents[index].id,
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => JobDetailsScreen(
+                        jobdata: documentData,
+                      ),
+                    ),
+                  );
                 },
                 leading: Image.network(documentData['image']),
                 trailing: GestureDetector(
