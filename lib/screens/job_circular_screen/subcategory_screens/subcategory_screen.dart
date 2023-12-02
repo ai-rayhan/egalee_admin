@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:egalee_admin/screens/job_circular_screen/subcategory/add_subcategory_screen.dart';
+import 'package:egalee_admin/screens/job_circular_screen/subcategory_screens/add_subcategory_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../all_jobs_screen.dart';
+import '../job_screens/all_jobs_screen.dart';
 
 class SubCategoryScreen extends StatefulWidget {
   const SubCategoryScreen({super.key, required this.category});

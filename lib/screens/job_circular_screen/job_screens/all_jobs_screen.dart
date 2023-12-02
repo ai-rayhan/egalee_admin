@@ -17,30 +17,31 @@ class _AllJobScreenState extends State<AllJobScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("${widget.category} Jobs"),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => AddNewJobScreen(
-                        category: widget.category,
-                        subcategory: widget.subcategoryId,
-                      ),
+      appBar: AppBar(
+        title: Text("${widget.category} Jobs"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => AddNewJobScreen(
+                      category: widget.category,
+                      subcategory: widget.subcategoryId,
                     ),
-                  );
-                },
-                icon: Icon(Icons.add))
-          ],
-        ),
-        body:
-       StreamBuilder<QuerySnapshot>(
+                  ),
+                );
+              },
+              icon: Icon(Icons.add))
+        ],
+      ),
+      body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('job_circular')
             .doc(widget.category.replaceAll(' ', ''))
-            .collection('subcategory').doc(widget.subcategoryId).collection('allposts')
+            .collection('subcategory')
+            .doc(widget.subcategoryId)
+            .collection('allposts')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -87,6 +88,6 @@ class _AllJobScreenState extends State<AllJobScreen> {
           );
         },
       ),
-        );
+    );
   }
 }

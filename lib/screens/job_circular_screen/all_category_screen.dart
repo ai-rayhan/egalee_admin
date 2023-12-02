@@ -1,7 +1,7 @@
 import 'package:egalee_admin/utlils/utlils.dart';
 import 'package:flutter/material.dart';
 
-import 'subcategory/subcategory_screen.dart';
+import 'subcategory_screens/subcategory_screen.dart';
 
 class JobCategoryScreen extends StatelessWidget {
   const JobCategoryScreen({super.key});
