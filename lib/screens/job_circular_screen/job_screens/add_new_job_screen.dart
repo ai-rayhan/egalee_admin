@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:egalee_admin/componants/datepicker_dialog.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../componants/date_fomat.dart';
+import '../../../data/firebase_caller/storage/upload.dart';
 import '/data/firebase_caller/firestore/firestore_caller.dart';
 
 class AddNewJobScreen extends StatefulWidget {
@@ -50,38 +49,20 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
   File? _file;
 
   Future<void> uploadFile() async {
-    try {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Uploading')));
-      String fileName = _file!.path.split('/').last; // Extract file name
-      Reference storageReference =
-          FirebaseStorage.instance.ref().child(fileName);
-      UploadTask uploadTask = storageReference.putFile(
-          _file!, SettableMetadata(contentType: 'text/plain'));
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+    String? downloadURL = await FileUploadUtils.uploadFile(context, _file);
+    if (downloadURL != null) {
       setState(() {
         imagelink = downloadURL;
       });
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Upload Success')));
-      print("File uploaded. Download URL: $downloadURL");
-    } catch (e) {
-      print("Error uploading file: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('An error occurred while uploading')));
     }
   }
 
   Future<void> pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
+    File? file = await FileUploadUtils.pickFile();
+    if (file != null) {
       setState(() {
-        _file = File(result.files.single.path!);
+        _file = file;
       });
-    } else {
-      print("No file selected");
     }
   }
 
@@ -163,7 +144,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   },
                   child: TextFormField(
                     enabled: false,
-                    decoration: const InputDecoration(labelText: 'Image URL'),
+                    decoration: InputDecoration(
+                        labelText:
+                            imagelink == null ? 'Pick a File' : '$imagelink'),
                   ),
                 ),
                 const SizedBox(

@@ -1,13 +1,9 @@
-
-
+import 'package:egalee_admin/screens/ilts_screen/view.dart';
 import 'package:egalee_admin/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../job_circular_screen/all_category_screen.dart';
-
-
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,7 +56,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            
+            HomeOptionCard(
+              title: 'IELTS Details',
+              icon: Icons.language,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => ModuleScreen(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
