@@ -23,51 +23,70 @@ class ModuleScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance.collection('ilts').get(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text('No data available'),
-            );
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                var document = snapshot.data!.docs[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TopicListScreen(
-                          documentId: document.id,
-                          moduleName: document['title'],
-                        ),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    child: ListTile(
-                      title: Text(document['title']),
-                      subtitle: Text(document['subtitle']),
-                      // leading: Image.network(document['imageLink']),
+      body:   ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                 TopicListScreen(documentId: modules[index].moduleName.replaceAll(' ', ''),moduleName:modules[index].moduleName ,),
+                          ),
+                        );
+                      },
+                      child: ModuleCard(
+                          moduleName: modules[index].moduleName,
+                          moduleIcon: modules[index].moduleIcon),
                     ),
-                  ),
-                );
-              },
-            );
-          }
-        },
-      ),
+                separatorBuilder: (context, index) => Divider(),
+                itemCount: modules.length)
+      //            FutureBuilder(
+      //   future: FirebaseFirestore.instance.collection('ilts').get(),
+      //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     } else if (snapshot.hasError) {
+      //       return Center(
+      //         child: Text('Error: ${snapshot.error}'),
+      //       );
+      //     } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+      //       return const Center(
+      //         child: Text('No data available'),
+      //       );
+      //     } else {
+      //       return ListView.builder(
+      //         itemCount: snapshot.data!.docs.length,
+      //         itemBuilder: (context, index) {
+      //           var document = snapshot.data!.docs[index];
+      //           return GestureDetector(
+      //             onTap: () {
+      //               Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                   builder: (context) => TopicListScreen(
+      //                     documentId: document.id,
+      //                     moduleName: document['title'],
+      //                   ),
+      //                 ),
+      //               );
+      //             },
+      //             child: Card(
+      //               child: ListTile(
+      //                 title: Text(document['title']),
+      //                 subtitle: Text(document['subtitle']),
+      //                 // leading: Image.network(document['imageLink']),
+      //               ),
+      //             ),
+      //           );
+      //         },
+      //       );
+      //     }
+      //   },
+      // ),
     );
   }
 }
@@ -93,19 +112,19 @@ class TopicListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(moduleName),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddTopicScreen(documentId: documentId),
-                ),
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.add),
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => AddTopicScreen(documentId: documentId),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ],
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
@@ -217,3 +236,56 @@ class TopicListScreen extends StatelessWidget {
     );
   }
 }
+class ModuleCard extends StatelessWidget {
+  const ModuleCard({
+    Key? key,
+    required this.moduleName,
+    required this.moduleIcon,
+  }) : super(key: key);
+
+  final String moduleName;
+  final IconData moduleIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(leading: Icon(moduleIcon), title: Text(moduleName));
+  }
+}
+
+class Module {
+  const Module({
+    Key? key,
+    required this.moduleName,
+    required this.moduleIcon,
+  });
+
+  final String moduleName;
+  final IconData moduleIcon;
+}
+
+List<Module> modules = [
+  Module(
+    moduleName: "Reading Module",
+    moduleIcon: Icons.sticky_note_2_rounded,
+  ),
+  Module(
+    moduleName: "Writing Module",
+    moduleIcon: Icons.edit_note_outlined,
+  ),
+  Module(
+    moduleName: "Listening Module",
+    moduleIcon: Icons.hearing,
+  ),
+  Module(
+    moduleName: "Speaking Module",
+    moduleIcon: Icons.mic,
+  ),
+  Module(
+    moduleName: "Scholarship Info",
+    moduleIcon: Icons.school,
+  ),
+  Module(
+    moduleName: "FB Group",
+    moduleIcon: Icons.group,
+  ),
+];
