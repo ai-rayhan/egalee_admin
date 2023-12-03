@@ -9,19 +9,19 @@ class ModuleScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Modules'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddModuleScreen(),
-                ),
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.add),
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => AddModuleScreen(),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ],
       ),
       body:   ListView.separated(
                 shrinkWrap: true,
@@ -112,19 +112,19 @@ class TopicListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(moduleName),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.add),
-        //     onPressed: () {
-        //       Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) => AddTopicScreen(documentId: documentId),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddTopicScreen(documentId: documentId),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
