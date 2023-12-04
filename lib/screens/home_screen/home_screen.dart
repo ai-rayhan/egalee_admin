@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../job_circular_screen/all_category_screen.dart';
+import '../skill_career_screen/view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,6 +65,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => ModuleScreen(),
+                  ),
+                );
+              },
+            ),
+            HomeOptionCard(
+              title: 'Skills and Career',
+              icon: Icons.stacked_line_chart_rounded,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => SkillCareerModuleScreen(),
                   ),
                 );
               },

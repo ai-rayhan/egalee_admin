@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'add.dart';
 
-class ModuleScreen extends StatelessWidget {
+class SkillCareerModuleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,7 +131,7 @@ class TopicListScreen extends StatelessWidget {
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
-            .collection('ilts')
+            .collection('skillcareer')
             .doc(documentId)
             .collection('topics')
             .get(),
@@ -190,7 +190,7 @@ class TopicListScreen extends StatelessWidget {
 
     try {
       await FirebaseFirestore.instance
-          .collection('ilts')
+          .collection('skillcareer')
           .doc(documentId)
           .collection('topics')
           .doc(id)
@@ -267,29 +267,23 @@ class Module {
   final IconData moduleIcon;
 }
 
+
 List<Module> modules = [
-  Module(
-    moduleName: "Reading Module",
-    moduleIcon: Icons.sticky_note_2_rounded,
+  const Module(
+    moduleName: "Success Story",
+    moduleIcon: Icons.storm_rounded,
   ),
-  Module(
-    moduleName: "Writing Module",
-    moduleIcon: Icons.edit_note_outlined,
+  const Module(
+    moduleName: "Frelancing",
+    moduleIcon: Icons.language,
   ),
-  Module(
-    moduleName: "Listening Module",
-    moduleIcon: Icons.hearing,
+  const Module(
+    moduleName: "Job Guideline",
+    moduleIcon: Icons.work,
   ),
-  Module(
-    moduleName: "Speaking Module",
-    moduleIcon: Icons.mic,
-  ),
-  Module(
-    moduleName: "Scholarship Info",
-    moduleIcon: Icons.school,
-  ),
-  Module(
-    moduleName: "FB Group",
-    moduleIcon: Icons.group,
+  const Module(
+    moduleName: "Bussiness Guideline",
+    moduleIcon: Icons.leaderboard,
   ),
 ];
+
