@@ -92,6 +92,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
       'description': descriptionController.text,
       'videoLink': videoLinkController.text,
       'pdfLink': imagelink,
+      'timestamp': Timestamp.fromDate(DateTime.now()),
       // Add other fields as needed
     }).then((value) {
       // Document successfully added
