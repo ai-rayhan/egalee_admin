@@ -92,6 +92,7 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
                   return null;
                 },
               ),
+                  const SizedBox(height: 10,),
               TextFormField(
                 controller: _subtitleController,
                 decoration: InputDecoration(labelText: 'Subtitle'),
@@ -101,7 +102,7 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
                   }
                   return null;
                 },
-              ),
+              ),    const SizedBox(height: 10,),
                 GestureDetector(
                   onTap: () async {
                     await pickFile(); // Pick file using file_picker

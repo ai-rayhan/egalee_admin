@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../../data/firebase_caller/storage/delete.dart';
 import 'add_new_job_screen.dart';
 import 'job_details_screen.dart';
 
@@ -16,7 +17,7 @@ class AllJobScreen extends StatefulWidget {
 
 class _AllJobScreenState extends State<AllJobScreen> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  deleteJobById(id) async {
+  deleteJobById(id,imageLink) async {
     await _firestore
         .collection('job_circular')
         .doc(widget.category.replaceAll(' ', ''))
@@ -25,6 +26,7 @@ class _AllJobScreenState extends State<AllJobScreen> {
         .collection('allposts')
         .doc(id)
         .delete();
+        await FiledeleteUtils.deleteImageFromFirebaseStorage(imageLink);
   }
 
   @override
@@ -102,10 +104,10 @@ class _AllJobScreenState extends State<AllJobScreen> {
                           ),
                         );
                       },
-                      leading: Image.network(documentData['image']),
+                      leading: CircleAvatar(child: Text((index+1).toString()),radius: 15,),
                       trailing: GestureDetector(
                           onTap: () {
-                            deleteJobById(jobId);
+                            deleteJobById(jobId,documentData['image']??'');
                           },
                           child: const Icon(Icons.delete)),
                     );

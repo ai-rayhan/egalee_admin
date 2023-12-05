@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egalee_admin/data/firebase_caller/storage/delete.dart';
 import 'package:egalee_admin/screens/job_circular_screen/subcategorylist_screens/add_subcategory_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,13 +15,14 @@ class SubCategoryListScreen extends StatefulWidget {
 
 class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  delesubcategory(id) {
-    _firestore
+  delesubcategory(id,imageLink) async {
+    await _firestore
         .collection('job_circular')
         .doc(widget.category.replaceAll(' ', ''))
         .collection('subcategory')
         .doc(id)
         .delete();
+   await FiledeleteUtils.deleteImageFromFirebaseStorage(imageLink);
   }
 
   @override
@@ -65,7 +67,7 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
           return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -79,7 +81,7 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
                     final documentData =
                         documents[index].data() as Map<String, dynamic>;
                     final subcategoryId = documents[index].id;
-                
+
                     // Display the data in whatever way you want, for example:
                     return ListTile(
                       title: Text(documentData['title']),
@@ -98,7 +100,7 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
                       leading: Image.network(documentData['image'] ?? ''),
                       trailing: GestureDetector(
                           onLongPress: () {
-                            delesubcategory(subcategoryId);
+                            delesubcategory(subcategoryId,documentData['image'] ?? '');
                           },
                           child: Icon(Icons.delete)),
                     );

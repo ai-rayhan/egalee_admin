@@ -1,3 +1,4 @@
+import 'package:egalee_admin/data/firebase_caller/storage/delete.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -168,7 +169,7 @@ class TopicListScreen extends StatelessWidget {
                           subtitle: Text(subDocument['subtitle']),
                           trailing: IconButton(
                               onPressed: () {
-                                _deleteTopic(subDocumentId, context);
+                                _deleteTopic(subDocumentId, context,subDocument['pdfLink']??'',subDocument['videoLink']??'');
                               },
                               icon: const Icon(Icons.delete)),
                         ),
@@ -184,7 +185,7 @@ class TopicListScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteTopic(id, BuildContext context) async {
+  Future<void> _deleteTopic(id, BuildContext context,videoLink,pdfLink) async {
     // Show a loading indicator while deleting
     showLoadingDialog(context);
 
@@ -195,7 +196,8 @@ class TopicListScreen extends StatelessWidget {
           .collection('topics')
           .doc(id)
           .delete();
-
+          await FiledeleteUtils.deleteImageFromFirebaseStorage(videoLink);
+          await FiledeleteUtils.deleteImageFromFirebaseStorage(pdfLink);
       // If deletion is successful, show a success Snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

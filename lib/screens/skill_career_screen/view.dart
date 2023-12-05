@@ -168,7 +168,7 @@ class TopicListScreen extends StatelessWidget {
                           subtitle: Text(subDocument['subtitle']),
                           trailing: IconButton(
                               onPressed: () {
-                                _deleteTopic(subDocumentId, context);
+                               _deleteTopic(subDocumentId, context,subDocument['pdfLink']??'',subDocument['videoLink']??'');
                               },
                               icon: const Icon(Icons.delete)),
                         ),
@@ -184,7 +184,7 @@ class TopicListScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteTopic(id, BuildContext context) async {
+  Future<void> _deleteTopic(id, BuildContext context,videoLink,pdfLink) async {
     // Show a loading indicator while deleting
     showLoadingDialog(context);
 

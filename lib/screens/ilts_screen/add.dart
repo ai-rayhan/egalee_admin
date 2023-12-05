@@ -126,7 +126,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Subcollection Document'),
+        title: Text('Add Topic'),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -143,17 +143,29 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               controller: titleController,
               decoration: InputDecoration(labelText: 'Title'),
             ),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               controller: subtitleController,
               decoration: InputDecoration(labelText: 'Subtitle'),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             TextField(
               controller: descriptionController,
               decoration: InputDecoration(labelText: 'Description'),
             ),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               controller: videoLinkController,
               decoration: InputDecoration(labelText: 'Video Link'),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             GestureDetector(
               onTap: () async {
