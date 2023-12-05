@@ -45,7 +45,7 @@ class _AllJobScreenState extends State<AllJobScreen> {
                   ),
                 );
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -64,7 +64,7 @@ class _AllJobScreenState extends State<AllJobScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -72,36 +72,47 @@ class _AllJobScreenState extends State<AllJobScreen> {
           // If data is available, display it
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: documents.length,
-            itemBuilder: (context, index) {
-              // Access individual document data using documents[index]
-              final documentData =
-                  documents[index].data() as Map<String, dynamic>;
-              final jobId = documents[index].id;
-
-              // Display the data in whatever way you want, for example:
-              return ListTile(
-                title: Text(documentData['title']),
-                subtitle: Text(documentData['subtitle']),
-                onTap: () {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => JobDetailsScreen(
-                        jobdata: documentData,
-                      ),
-                    ),
-                  );
-                },
-                leading: Image.network(documentData['image']),
-                trailing: GestureDetector(
-                    onTap: () {
-                      deleteJobById(jobId);
-                    },
-                    child: Icon(Icons.delete)),
-              );
-            },
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("All Posts"),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: documents.length,
+                  itemBuilder: (context, index) {
+                    // Access individual document data using documents[index]
+                    final documentData =
+                        documents[index].data() as Map<String, dynamic>;
+                    final jobId = documents[index].id;
+                
+                    // Display the data in whatever way you want, for example:
+                    return ListTile(
+                      title: Text(documentData['title']),
+                      subtitle: Text(documentData['subtitle']),
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => JobDetailsScreen(
+                              jobdata: documentData,
+                            ),
+                          ),
+                        );
+                      },
+                      leading: Image.network(documentData['image']),
+                      trailing: GestureDetector(
+                          onTap: () {
+                            deleteJobById(jobId);
+                          },
+                          child: const Icon(Icons.delete)),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),

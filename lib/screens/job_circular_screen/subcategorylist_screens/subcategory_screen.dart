@@ -64,37 +64,48 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
           // If data is available, display it
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: documents.length,
-            itemBuilder: (context, index) {
-              // Access individual document data using documents[index]
-              final documentData =
-                  documents[index].data() as Map<String, dynamic>;
-              final subcategoryId = documents[index].id;
-
-              // Display the data in whatever way you want, for example:
-              return ListTile(
-                title: Text(documentData['title']),
-                subtitle: Text(documentData['subtitle']),
-                onTap: () {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => AllJobScreen(
-                        category: widget.category,
-                        subcategoryId: documents[index].id,
-                      ),
-                    ),
-                  );
-                },
-                leading: Image.network(documentData['image'] ?? ''),
-                trailing: GestureDetector(
-                    onTap: () {
-                      delesubcategory(subcategoryId);
-                    },
-                    child: Icon(Icons.delete)),
-              );
-            },
+          return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Subcategories"),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: documents.length,
+                  itemBuilder: (context, index) {
+                    // Access individual document data using documents[index]
+                    final documentData =
+                        documents[index].data() as Map<String, dynamic>;
+                    final subcategoryId = documents[index].id;
+                
+                    // Display the data in whatever way you want, for example:
+                    return ListTile(
+                      title: Text(documentData['title']),
+                      subtitle: Text(documentData['subtitle']),
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => AllJobScreen(
+                              category: widget.category,
+                              subcategoryId: documents[index].id,
+                            ),
+                          ),
+                        );
+                      },
+                      leading: Image.network(documentData['image'] ?? ''),
+                      trailing: GestureDetector(
+                          onLongPress: () {
+                            delesubcategory(subcategoryId);
+                          },
+                          child: Icon(Icons.delete)),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),
