@@ -56,7 +56,7 @@ class _AllJobScreenState extends State<AllJobScreen> {
             .doc(widget.category.replaceAll(' ', ''))
             .collection('subcategory')
             .doc(widget.subcategoryId)
-            .collection('allposts')
+            .collection('allposts').orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {

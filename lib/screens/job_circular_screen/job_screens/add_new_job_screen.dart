@@ -233,7 +233,8 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
       'publishDate': publishDate?.toIso8601String() ?? '',
       'deadlineDate': deadlineDate?.toIso8601String() ?? '',
       'image': imagelink ?? '',
-      'islocked': _islocked
+      'islocked': _islocked,
+      'timestamp': Timestamp.fromDate(DateTime.now()),
     };
   }
 

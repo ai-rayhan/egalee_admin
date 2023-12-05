@@ -133,7 +133,7 @@ class TopicListScreen extends StatelessWidget {
         future: FirebaseFirestore.instance
             .collection('skillcareer')
             .doc(documentId)
-            .collection('topics')
+            .collection('topics').orderBy('timestamp', descending: true)
             .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
