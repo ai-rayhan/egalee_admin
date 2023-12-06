@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
 
-class AddModuleScreen extends StatelessWidget {
+class AddBooksCategoryScreen extends StatelessWidget {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController subtitleController = TextEditingController();
   final TextEditingController imageLinkController = TextEditingController();
@@ -62,17 +62,21 @@ class AddModuleScreen extends StatelessWidget {
   }
 }
 
-class AddTopicScreen extends StatefulWidget {
+class AddBooksScreen extends StatefulWidget {
   final String documentId;
   final String suggetionCollectionName;
 
-   AddTopicScreen({Key? key, required this.documentId, required this.suggetionCollectionName}) : super(key: key);
+  AddBooksScreen(
+      {Key? key,
+      required this.documentId,
+      required this.suggetionCollectionName})
+      : super(key: key);
 
   @override
-  State<AddTopicScreen> createState() => _AddTopicScreenState();
+  State<AddBooksScreen> createState() => _AddBooksScreenState();
 }
 
-class _AddTopicScreenState extends State<AddTopicScreen> {
+class _AddBooksScreenState extends State<AddBooksScreen> {
   final TextEditingController titleController = TextEditingController();
 
   final TextEditingController subtitleController = TextEditingController();
@@ -146,22 +150,30 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               controller: titleController,
               decoration: InputDecoration(labelText: 'Title'),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               controller: subtitleController,
               decoration: InputDecoration(labelText: 'Subtitle'),
             ),
-                const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               controller: descriptionController,
               decoration: InputDecoration(labelText: 'Description'),
             ),
-                const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               controller: videoLinkController,
               decoration: InputDecoration(labelText: 'Video Link'),
             ),
-                const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             GestureDetector(
               onTap: () async {
                 await pickFile(); // Pick file using file_picker
