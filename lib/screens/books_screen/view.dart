@@ -62,7 +62,7 @@ class BooksCategoriesScreen extends StatelessWidget {
                           onPressed: () {
                             deleteBookCategory(document.id, context);
                           },
-                          icon: document['title']),
+                          icon: Icon(Icons.delete)),
                     ));
               },
               separatorBuilder: (context, index) => Divider(),
