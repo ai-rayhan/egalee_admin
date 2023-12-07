@@ -161,9 +161,9 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
               height: 10,
             ),
             TextField(
-              maxLines: 5,
+            
               controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: InputDecoration(labelText: 'PDF Link'),
             ),
             const SizedBox(
               height: 10,
