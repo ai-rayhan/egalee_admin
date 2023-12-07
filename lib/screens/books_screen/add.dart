@@ -12,9 +12,9 @@ class AddBooksCategoryScreen extends StatelessWidget {
   void _addCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance.collection('books').add({
       'title': titleController.text,
-      'subtitle': subtitleController.text,
-      'imageLink': imageLinkController.text,
-      'id': imageLinkController.text,
+      // 'subtitle': subtitleController.text,
+      // 'imageLink': imageLinkController.text,
+      'serialNo': imageLinkController.text,
       // Add other fields as needed
     }).then((value) {
       // Document successfully added
@@ -29,7 +29,7 @@ class AddBooksCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Collection Document'),
+        title: Text('Add Book Category'),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -46,14 +46,14 @@ class AddBooksCategoryScreen extends StatelessWidget {
               controller: titleController,
               decoration: InputDecoration(labelText: 'Title'),
             ),
-            TextField(
-              controller: subtitleController,
-              decoration: InputDecoration(labelText: 'Subtitle'),
-            ),
-            TextField(
-              controller: imageLinkController,
-              decoration: InputDecoration(labelText: 'Image Link'),
-            ),
+            // TextField(
+            //   controller: subtitleController,
+            //   decoration: InputDecoration(labelText: 'Subtitle'),
+            // ),
+            // TextField(
+            //   controller: imageLinkController,
+            //   decoration: InputDecoration(labelText: 'Image Link'),
+            // ),
             // Add more TextFields for additional fields if needed
           ],
         ),
@@ -83,7 +83,7 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
 
   final TextEditingController descriptionController = TextEditingController();
 
-  final TextEditingController videoLinkController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
 
   final TextEditingController pdfLinkController = TextEditingController();
 
@@ -96,7 +96,7 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
       'title': titleController.text,
       'subtitle': subtitleController.text,
       'description': descriptionController.text,
-      'videoLink': videoLinkController.text,
+      'videoLink': priceController.text,
       'pdfLink': imagelink,
       'timestamp': Timestamp.fromDate(DateTime.now()),
       // Add other fields as needed
@@ -133,7 +133,7 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Topic'),
+        title: Text('Add A Book'),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -155,12 +155,13 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
             ),
             TextField(
               controller: subtitleController,
-              decoration: InputDecoration(labelText: 'Subtitle'),
+              decoration: InputDecoration(labelText: 'Writer Name'),
             ),
             const SizedBox(
               height: 10,
             ),
             TextField(
+              maxLines: 5,
               controller: descriptionController,
               decoration: InputDecoration(labelText: 'Description'),
             ),
@@ -168,8 +169,8 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
               height: 10,
             ),
             TextField(
-              controller: videoLinkController,
-              decoration: InputDecoration(labelText: 'Video Link'),
+              controller: priceController,
+              decoration: InputDecoration(labelText: 'Price'),
             ),
             const SizedBox(
               height: 10,
@@ -185,7 +186,7 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
                 enabled: false,
                 decoration: InputDecoration(
                     labelText:
-                        imagelink == null ? 'Pick a File' : '$imagelink'),
+                        imagelink == null ? 'Pick a Image' : '$imagelink'),
               ),
             ),
             // Add more TextFields for additional fields if needed

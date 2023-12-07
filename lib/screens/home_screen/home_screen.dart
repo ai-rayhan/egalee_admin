@@ -1,4 +1,4 @@
-import 'package:egalee_admin/screens/books_screen/view.dart';
+import 'package:egalee_admin/screens/books_screen/view/book_category_screen.dart';
 import 'package:egalee_admin/screens/ilts_screen/view.dart';
 import 'package:egalee_admin/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
