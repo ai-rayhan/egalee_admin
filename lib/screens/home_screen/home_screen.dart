@@ -4,6 +4,7 @@ import 'package:egalee_admin/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../hsc_admission_screen/hsc_admission_screen.dart';
 import '../job_circular_screen/all_category_screen.dart';
 import '../skill_career_screen/view.dart';
 
@@ -46,6 +47,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            HomeOptionCard(
+              title: 'Hsc & University Preparation',
+              icon: Icons.work,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => HscAndUniversityPrep(),
+                  ),
+                );
+              },
+            ),
             HomeOptionCard(
               title: 'Job Circular',
               icon: Icons.work,
