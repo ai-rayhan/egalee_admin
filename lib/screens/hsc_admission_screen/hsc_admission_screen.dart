@@ -57,8 +57,29 @@ List<Module> modules = [
       route: HscprepScreen(screenName: 'HSC Preparation')),
   Module(
       moduleName: "Admission Question Bank",
-      route: AllSubjectScreen(groupName: 'AdmissionQuestionBank')),
+      route: AllSubjectScreen(groupName: 'Admission Question Bank')),
   Module(
-      moduleName: "DU Admission ",
-      route: DUAdmissionScreen(screenName: 'DU Admission ')),
+      moduleName: "DU Admission",
+      route: DUAdmissionScreen(screenName: 'DU Admission')),
+  Module(
+      moduleName: "GST Admission",
+      route: AllSubjectScreen(groupName: 'GST Admission')),
+  Module(
+      moduleName: "Written Preparation",
+      route: AllSubjectScreen(groupName: 'Written Preparation')),
+  Module(
+      moduleName: "Medical Admission",
+      route: AllSubjectScreen(groupName: 'Medical Admission')),
+  Module(
+      moduleName: "Video section",
+      route: AllSubjectScreen(groupName: 'Medical Admission')),
+  Module(
+      moduleName: "Video section",
+      route: AllSubjectScreen(groupName: 'Video section')),
+  Module(
+      moduleName: "PDF section",
+      route: AllSubjectScreen(groupName: 'PDF section')),
+  Module(
+      moduleName: "Live Exam",
+      route: AllSubjectScreen(groupName: 'Live Exam')),
 ];

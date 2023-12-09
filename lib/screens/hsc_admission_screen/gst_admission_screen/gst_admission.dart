@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 
-// class AdmissionQuestionBank extends StatelessWidget {
-//   const AdmissionQuestionBank({super.key, required this.screenName});
+// class GSTAdmissionScreen extends StatelessWidget {
+//   const GSTAdmissionScreen({super.key, required this.screenName});
 //   final String screenName;
 
 //   @override
