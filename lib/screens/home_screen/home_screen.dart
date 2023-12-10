@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             HomeOptionCard(
               title: 'Hsc & University Preparation',
-              icon: Icons.work,
+              icon: Icons.grain_rounded,
               ontap: () {
                 Navigator.push<void>(
                   context,

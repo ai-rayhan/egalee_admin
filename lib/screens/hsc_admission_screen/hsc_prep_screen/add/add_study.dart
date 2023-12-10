@@ -1,15 +1,17 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
 
+import '../../pdf_section_screen/create_quiz.dart';
+
 class AddTopicScreen extends StatefulWidget {
   final String groupName;
   final String subjectId;
 
-  AddTopicScreen({Key? key, required this.groupName, required this.subjectId}) : super(key: key);
+  AddTopicScreen({Key? key, required this.groupName, required this.subjectId})
+      : super(key: key);
 
   @override
   State<AddTopicScreen> createState() => _AddTopicScreenState();
@@ -30,7 +32,9 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     FirebaseFirestore.instance
         .collection('hscadmission')
         .doc(widget.groupName)
-        .collection('allSubject').doc(widget.subjectId).collection('alltopics')
+        .collection('allSubject')
+        .doc(widget.subjectId)
+        .collection('alltopics')
         .add({
       'title': titleController.text,
       'subtitle': subtitleController.text,
@@ -38,6 +42,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
       'videoLink': videoLinkController.text,
       'pdfLink': imagelink,
       'timestamp': Timestamp.fromDate(DateTime.now()),
+      'quizLink':quizfileLink,
       // Add other fields as needed
     }).then((value) {
       // Document successfully added
@@ -50,6 +55,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
 
   File? _file;
   String? imagelink;
+  String? quizfileLink;
   Future<void> uploadFile() async {
     String? downloadURL = await FileUploadUtils.uploadFile(context, _file);
     if (downloadURL != null) {
@@ -89,22 +95,31 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               controller: titleController,
               decoration: InputDecoration(labelText: 'Title'),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               controller: subtitleController,
               decoration: InputDecoration(labelText: 'Subtitle'),
             ),
-                const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               controller: descriptionController,
               decoration: InputDecoration(labelText: 'Description'),
             ),
-                const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
+              maxLines: 5,
               controller: videoLinkController,
               decoration: InputDecoration(labelText: 'Video Link'),
             ),
-                const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             GestureDetector(
               onTap: () async {
                 await pickFile(); // Pick file using file_picker
@@ -119,6 +134,29 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                         imagelink == null ? 'Pick a File' : '$imagelink'),
               ),
             ),
+            ElevatedButton(
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => QuizInputPage()),
+                  );
+
+                  // Handle the result passed back from Screen B
+                  if (result != null) {
+                    setState(() {
+                      quizfileLink = result;
+                    });
+                    print('Received data from Screen B: $result');
+                    // Handle the data as needed
+                  }
+                  // Navigator.push<void>(
+                  //   context,
+                  //   MaterialPageRoute<void>(
+                  //     builder: (BuildContext context) => QuizInputPage(),
+                  //   ),
+                  // );
+                },
+                child: quizfileLink==null?Text('Add MCQ'):Text(quizfileLink!))
             // Add more TextFields for additional fields if needed
           ],
         ),

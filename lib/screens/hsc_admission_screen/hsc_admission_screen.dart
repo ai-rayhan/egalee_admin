@@ -70,9 +70,7 @@ List<Module> modules = [
   Module(
       moduleName: "Medical Admission",
       route: AllSubjectScreen(groupName: 'Medical Admission')),
-  Module(
-      moduleName: "Video section",
-      route: AllSubjectScreen(groupName: 'Medical Admission')),
+
   Module(
       moduleName: "Video section",
       route: AllSubjectScreen(groupName: 'Video section')),
