@@ -5,14 +5,15 @@ import '../../../../componants/dialogs/deleting_dialog.dart';
 import '../add/add_study.dart';
 
 class AllTopicScreen extends StatelessWidget {
-  const AllTopicScreen({super.key, required this.groupName, required this.subjectId});
+  const AllTopicScreen({super.key, required this.groupName, required this.subjectId, required this.subjectName});
   final String groupName;
   final String subjectId;
+  final String subjectName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(groupName),
+          title: Text(subjectName),
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
@@ -22,7 +23,7 @@ class AllTopicScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) =>
                         AddTopicScreen( groupName: groupName,
-                                          subjectId: subjectId,),
+                                          subjectId: subjectId, subjectName: subjectName,),
                   ),
                 );
               },
@@ -52,9 +53,9 @@ class AllTopicScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text(" "),
+                    child: Text("$subjectName/All subjects "),
                   ),
                   Expanded(
                     child: ListView.builder(

@@ -21,7 +21,7 @@ class AddSubjectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add A Subject'),
+        title: Text('Add A Subject in $groupName'),
         actions: [
           IconButton(
             icon: Icon(Icons.save),

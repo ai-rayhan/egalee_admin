@@ -51,9 +51,9 @@ class AllSubjectScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text(" "),
+                    child: Text("$groupName/All subjects "),
                   ),
                   Expanded(
                     child: ListView.builder(
@@ -81,7 +81,7 @@ class AllSubjectScreen extends StatelessWidget {
                                     builder: (BuildContext context) =>
                                         AllTopicScreen(
                                           groupName: groupName,
-                                          subjectId: subDocumentId,
+                                          subjectId: subDocumentId, subjectName:subDocument['title'] ,
                                         )),
                               );
                             },

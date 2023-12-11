@@ -1,4 +1,4 @@
-import 'package:egalee_admin/screens/hsc_admission_screen/hsc_prep_screen/view/all_topic_screen.dart';
+import '/screens/hsc_admission_screen/hsc_prep_screen/view/all_topic_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -28,6 +28,7 @@ class DUAdmissionScreen extends StatelessWidget {
                             builder: (BuildContext context) => AllTopicScreen(
                                   groupName: modules[index].moduleName,
                                   subjectId: 'nosubject',
+                                  subjectName: '',
                                 )),
                       );
                     },
