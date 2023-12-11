@@ -2,17 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../componants/dialogs/deleting_dialog.dart';
-import '../hsc_prep_screen/add/add_subject.dart';
-import 'all_exam_screen.dart';
+import 'add_exam_screen.dart';
 
-class LiveExamSubjectScreen extends StatelessWidget {
-  const LiveExamSubjectScreen({super.key, required this.groupName});
+class AllTopicScreen extends StatelessWidget {
+  const AllTopicScreen(
+      {super.key,
+      required this.groupName,
+      required this.subjectId,
+      required this.subjectName});
   final String groupName;
+  final String subjectId;
+  final String subjectName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(groupName),
+          title: Text("$subjectName in $groupName"),
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
@@ -20,8 +25,11 @@ class LiveExamSubjectScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        AddSubjectScreen(groupName: groupName),
+                    builder: (context) => AddTopicScreen(
+                      groupName: groupName,
+                      subjectId: subjectId,
+                      subjectName: subjectName,
+                    ),
                   ),
                 );
               },
@@ -33,6 +41,8 @@ class LiveExamSubjectScreen extends StatelessWidget {
               .collection('hscadmission')
               .doc(groupName)
               .collection('allSubject')
+              .doc(subjectId)
+              .collection('alltopics')
               .get(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -53,7 +63,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
                 children: [
                    Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text("$groupName/All subjects "),
+                    child: Text("$groupName/$subjectName "),
                   ),
                   Expanded(
                     child: ListView.builder(
@@ -64,7 +74,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
                         return Card(
                           child: ListTile(
                             title: Text(subDocument['title']),
-                            // subtitle: Text(subDocument['subtitle']),
+                            subtitle: Text(subDocument['subtitle']),
                             trailing: IconButton(
                                 onPressed: () {
                                   _deleteTopic(
@@ -73,19 +83,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
                                   );
                                 },
                                 icon: const Icon(Icons.delete)),
-
-                            onTap: () {
-                              Navigator.push<void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        AllTopicScreen(
-                                          groupName: groupName,
-                                          subjectId: subDocumentId,
-                                          subjectName: subDocument['title']??'',
-                                        )),
-                              );
-                            },
+                            onTap: () {},
                           ),
                         );
                       },
