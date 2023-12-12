@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../hsc_admission_screen/hsc_admission_screen.dart';
 import '../job_circular_screen/all_category_screen.dart';
+import '../job_preparation_screen/job_preparation_screen.dart';
 import '../skill_career_screen/view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,6 +56,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => HscAndUniversityPrep(),
+                  ),
+                );
+              },
+            ),
+            HomeOptionCard(
+              title: 'Job Preparation',
+              icon: Icons.pie_chart_sharp,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => JobPreparationScreen(),
                   ),
                 );
               },
