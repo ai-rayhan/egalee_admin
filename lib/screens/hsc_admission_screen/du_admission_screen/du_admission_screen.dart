@@ -28,7 +28,7 @@ class DUAdmissionScreen extends StatelessWidget {
                             builder: (BuildContext context) => AllTopicScreen(
                                   groupName: modules[index].moduleName,
                                   subjectId: 'nosubject',
-                                  subjectName: '',
+                                  subjectName: modules[index].moduleName,
                                 )),
                       );
                     },

@@ -5,7 +5,11 @@ import '../../../../componants/dialogs/deleting_dialog.dart';
 import '../add/add_study.dart';
 
 class AllTopicScreen extends StatelessWidget {
-  const AllTopicScreen({super.key, required this.groupName, required this.subjectId, required this.subjectName});
+  const AllTopicScreen(
+      {super.key,
+      required this.groupName,
+      required this.subjectId,
+      required this.subjectName});
   final String groupName;
   final String subjectId;
   final String subjectName;
@@ -21,9 +25,11 @@ class AllTopicScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        AddTopicScreen( groupName: groupName,
-                                          subjectId: subjectId, subjectName: subjectName,),
+                    builder: (context) => AddTopicScreen(
+                      groupName: groupName,
+                      subjectId: subjectId,
+                      subjectName: subjectName,
+                    ),
                   ),
                 );
               },
@@ -34,7 +40,9 @@ class AllTopicScreen extends StatelessWidget {
           future: FirebaseFirestore.instance
               .collection('hscadmission')
               .doc(groupName)
-              .collection('allSubject').doc(subjectId).collection('alltopics')
+              .collection('allSubject')
+              .doc(subjectId)
+              .collection('alltopics')
               .get(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -53,7 +61,7 @@ class AllTopicScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text("$subjectName/All subjects "),
                   ),
@@ -75,10 +83,7 @@ class AllTopicScreen extends StatelessWidget {
                                   );
                                 },
                                 icon: const Icon(Icons.delete)),
-
-                            onTap: () {
-
-                            },
+                            onTap: () {},
                           ),
                         );
                       },
@@ -100,6 +105,8 @@ class AllTopicScreen extends StatelessWidget {
           .collection('hscadmission')
           .doc(groupName)
           .collection('allSubject')
+          .doc(subjectId)
+          .collection('alltopics')
           .doc(id)
           .delete();
 
