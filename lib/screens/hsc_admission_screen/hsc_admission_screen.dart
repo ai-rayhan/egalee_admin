@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'du_admission_screen/du_admission_screen.dart';
 import 'hsc_prep_screen/hsc_prep_screen.dart';
-import 'hsc_prep_screen/view/all_subject_screen.dart';
+import 'common_screen/view/all_subject_screen.dart';
 import 'live_exam_screen/live_exam_screen.dart';
 
 class HscAndUniversityPrep extends StatelessWidget {

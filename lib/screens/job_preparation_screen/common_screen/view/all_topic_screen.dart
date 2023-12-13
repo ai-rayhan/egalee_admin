@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:egalee_admin/screens/job_preparation_screen/free_course_screen/add/add_topic_screen.dart';
+import 'package:egalee_admin/screens/job_preparation_screen/common_screen/add/add_topic_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../componants/dialogs/deleting_dialog.dart';

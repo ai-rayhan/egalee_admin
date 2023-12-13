@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'view/all_subject_screen.dart';
+import '../common_screen/view/all_subject_screen.dart';
 
 class HscprepScreen extends StatelessWidget {
   const HscprepScreen({super.key, required this.screenName});

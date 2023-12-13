@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../componants/dialogs/deleting_dialog.dart';
-import '../hsc_prep_screen/add/add_subject.dart';
+import '../common_screen/add/add_subject.dart';
 import 'all_exam_screen.dart';
 
 class LiveExamSubjectScreen extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
 
-import '../../hsc_admission_screen/pdf_section_screen/create_quiz.dart';
+import '../../../componants/create_quiz.dart';
 
 
 class AddTopicScreen extends StatefulWidget {

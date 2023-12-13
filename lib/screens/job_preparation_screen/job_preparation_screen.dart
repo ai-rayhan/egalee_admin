@@ -1,4 +1,4 @@
-import 'package:egalee_admin/screens/job_preparation_screen/free_course_screen/free_course_screen.dart';
+import 'package:egalee_admin/screens/job_preparation_screen/common_screen/view/all_subject_screen.dart';
 import 'package:egalee_admin/screens/job_preparation_screen/live_exam_screen/live_exam_screen.dart';
 import 'package:flutter/material.dart';
 
