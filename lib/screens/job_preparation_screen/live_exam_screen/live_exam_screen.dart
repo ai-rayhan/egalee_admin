@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:egalee_admin/screens/job_preparation_screen/common_screen/add/add_subject.dart';
+import 'package:egalee_admin/componants/snakbar.dart';
+import 'package:egalee_admin/screens/hsc_admission_screen/live_exam_screen/add_exam_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../componants/dialogs/deleting_dialog.dart';
-import 'all_exam_screen.dart';
 
 class LiveExamSubjectScreen extends StatelessWidget {
   const LiveExamSubjectScreen({super.key, required this.groupName});
@@ -20,8 +20,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        AddSubjectScreen(groupName: groupName),
+                    builder: (context) => AddExamScreen(groupName: groupName),
                   ),
                 );
               },
@@ -32,7 +31,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
           future: FirebaseFirestore.instance
               .collection('jobprep')
               .doc(groupName)
-              .collection('allSubject')
+              .collection('allexam')
               .get(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -51,7 +50,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text("$groupName/All subjects "),
                   ),
@@ -65,26 +64,20 @@ class LiveExamSubjectScreen extends StatelessWidget {
                           child: ListTile(
                             title: Text(subDocument['title']),
                             // subtitle: Text(subDocument['subtitle']),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  _deleteTopic(
-                                    subDocumentId,
-                                    context,
-                                  );
-                                },
-                                icon: const Icon(Icons.delete)),
+                            trailing: popupbutton(
+                                context, subDocumentId, subDocument),
 
                             onTap: () {
-                              Navigator.push<void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        AllTopicScreen(
-                                          groupName: groupName,
-                                          subjectId: subDocumentId,
-                                          subjectName: subDocument['title']??'',
-                                        )),
-                              );
+                              // Navigator.push<void>(
+                              //   context,
+                              //   MaterialPageRoute<void>(
+                              //       builder: (BuildContext context) =>
+                              //           AllE(
+                              //             groupName: groupName,
+                              //             subjectId: subDocumentId,
+                              //             subjectName: subDocument['title']??'',
+                              //           )),
+                              // );
                             },
                           ),
                         );
@@ -98,6 +91,33 @@ class LiveExamSubjectScreen extends StatelessWidget {
         ));
   }
 
+  PopupMenuButton<String> popupbutton(
+    BuildContext context,
+    documentId,
+    documentData,
+  ) {
+    return PopupMenuButton<String>(
+      onSelected: (String value) {
+        if (value == 'Update') {
+          updateresult(context, documentId, documentData, groupName);
+          print('Update action');
+        } else if (value == 'Delete') {
+          _deleteTopic(documentId, context);
+        }
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        const PopupMenuItem<String>(
+          value: 'Update',
+          child: Text('Publish result'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'Delete',
+          child: Text('Delete'),
+        ),
+      ],
+    );
+  }
+
   Future<void> _deleteTopic(id, BuildContext context) async {
     // Show a loading indicator while deleting
     showLoadingDialog(context);
@@ -106,7 +126,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
       await FirebaseFirestore.instance
           .collection('jobprep')
           .doc(groupName)
-          .collection('allSubject')
+          .collection('allexam')
           .doc(id)
           .delete();
 
@@ -130,4 +150,27 @@ class LiveExamSubjectScreen extends StatelessWidget {
       Navigator.of(context, rootNavigator: true).pop();
     }
   }
+}
+
+void updateresult(
+    BuildContext context, documentId, documentData, groupName) async {
+  await FirebaseFirestore.instance
+      .collection('jobprep')
+      .doc(groupName)
+      .collection('allexam')
+      .doc(documentId)
+      .update({
+    'title': documentData['title'],
+    'subtitle': documentData['subtitle'],
+    'description': documentData['description'],
+    'duration': documentData['duration'],
+    'islocked': documentData['islocked'],
+    'isresultPublished': true,
+    'quizLink': documentData['quizLink'],
+    // Add other fields as needed
+  }).then((value) {
+    showSnackBar(message: "Exam updated to result published", context: context);
+  }).catchError((error) {
+    // Handle error according to your app's requirements
+  });
 }

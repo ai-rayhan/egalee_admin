@@ -4,44 +4,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
 
-import '../../../componants/create_quiz.dart';
+import '../../../../componants/create_quiz.dart';
 
-class AddTopicScreen extends StatefulWidget {
+class AddExamScreen extends StatefulWidget {
   final String groupName;
-  final String subjectId;
-  final String subjectName;
 
-  AddTopicScreen({Key? key, required this.groupName, required this.subjectId, required this.subjectName})
-      : super(key: key);
+  AddExamScreen({
+    Key? key,
+    required this.groupName,
+  }) : super(key: key);
 
   @override
-  State<AddTopicScreen> createState() => _AddTopicScreenState();
+  State<AddExamScreen> createState() => _AddExamScreenState();
 }
 
-class _AddTopicScreenState extends State<AddTopicScreen> {
+class _AddExamScreenState extends State<AddExamScreen> {
   final TextEditingController titleController = TextEditingController();
 
   final TextEditingController subtitleController = TextEditingController();
-
   final TextEditingController descriptionController = TextEditingController();
-
-  final TextEditingController pdfLinkController = TextEditingController();
-  final TextEditingController timeController = TextEditingController();
-
+  final TextEditingController durationController = TextEditingController();
+  bool _islocked = false;
+  final bool _isresultPublished = false;
   void _addSubCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance
-        .collection('hscadmission')
+        .collection('jobprep')
         .doc(widget.groupName)
-        .collection('allSubject')
-        .doc(widget.subjectId)
-        .collection('alltopics')
+        .collection('allexam')
         .add({
       'title': titleController.text,
       'subtitle': subtitleController.text,
       'description': descriptionController.text,
-      'time': imagelink,
       'timestamp': Timestamp.fromDate(DateTime.now()),
       'quizLink': quizfileLink,
+      'duration': durationController.text,
+      'islocked': _islocked,
+      'isresultPublished': _isresultPublished,
+
       // Add other fields as needed
     }).then((value) {
       // Document successfully added
@@ -77,7 +76,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Exam In ${widget.subjectName}'),
+        title: Text('Add A Exam '),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -106,36 +105,35 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                 height: 10,
               ),
               TextField(
+                keyboardType: TextInputType.number,
+                controller: durationController,
+                decoration: InputDecoration(labelText: 'Duration in minute'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
                 maxLines: 5,
                 controller: descriptionController,
                 decoration: InputDecoration(labelText: 'Description'),
               ),
-          
               const SizedBox(
                 height: 10,
               ),
-              TextFormField(
-                controller: timeController,
-                decoration: InputDecoration(labelText: "Exam Time in minute"),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+
               GestureDetector(
                 onTap: () async {
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => QuizInputPage()),
                   );
-          
+
                   if (result != null) {
                     setState(() {
                       quizfileLink = result;
                     });
                     debugPrint('Received data from Screen : $result');
-                   
                   }
-           
                 },
                 child: TextFormField(
                   enabled: false,
@@ -143,7 +141,24 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                       labelText:
                           quizfileLink == null ? 'Add MCQ' : quizfileLink!),
                 ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text("Locked Content"),
+                  Checkbox(
+                      value: _islocked,
+                      onChanged: (value) {
+                        setState(() {
+                          _islocked = !_islocked;
+                        });
+                      })
+                ],
               )
+
               // Add more TextFields for additional fields if needed
             ],
           ),

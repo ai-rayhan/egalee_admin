@@ -167,3 +167,121 @@ class _AddExamScreenState extends State<AddExamScreen> {
     );
   }
 }
+
+
+class UpdateExamScreen extends StatefulWidget {
+  final String groupName;
+  final String documentId;
+
+
+  UpdateExamScreen({
+    Key? key,
+    required this.groupName,
+    required this.documentId,
+  }) : super(key: key);
+
+  @override
+  _UpdateExamScreenState createState() => _UpdateExamScreenState();
+}
+
+class _UpdateExamScreenState extends State<UpdateExamScreen> {
+  late TextEditingController titleController;
+  late TextEditingController subtitleController;
+  late TextEditingController descriptionController;
+  late TextEditingController durationController;
+  late bool _isLocked;
+  late bool _isResultPublished;
+  String? quizFileLink;
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveExistingData();
+  }
+
+  void retrieveExistingData() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('hscadmission')
+        .doc(widget.groupName)
+        .collection('allexam')
+        .doc(widget.documentId)
+        .get();
+
+    if (documentSnapshot.exists) {
+      setState(() {
+        titleController = TextEditingController(text: documentSnapshot['title']);
+        subtitleController = TextEditingController(text: documentSnapshot['subtitle']);
+        descriptionController = TextEditingController(text: documentSnapshot['description']);
+        durationController = TextEditingController(text: documentSnapshot['duration']);
+        _isLocked = documentSnapshot['islocked'];
+        _isResultPublished = documentSnapshot['isresultPublished'];
+        quizFileLink = documentSnapshot['quizLink'];
+      });
+    }
+  }
+
+  void updateSubCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance
+        .collection('hscadmission')
+        .doc(widget.groupName)
+        .collection('allexam')
+        .doc(widget.documentId)
+        .update({
+      'title': titleController.text,
+      'subtitle': subtitleController.text,
+      'description': descriptionController.text,
+      'duration': durationController.text,
+      'islocked': _isLocked,
+      'isresultPublished': _isResultPublished,
+      'quizLink': quizFileLink,
+      // Add other fields as needed
+    }).then((value) {
+      Navigator.pop(context); // Close the current screen after update
+    }).catchError((error) {
+      // Handle error according to your app's requirements
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Update Exam'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () => updateSubCollectionDocument(context),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(labelText: 'Title'),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: subtitleController,
+                decoration: InputDecoration(labelText: 'Subtitle'),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration: InputDecoration(labelText: 'Description'),
+              ),
+              TextField(
+                controller: durationController,
+                decoration: InputDecoration(labelText: 'Duration'),
+              ),
+              // Add other fields and UI elements for updating data as needed
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
