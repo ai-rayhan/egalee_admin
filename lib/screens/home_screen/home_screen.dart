@@ -1,6 +1,8 @@
 import 'package:egalee_admin/screens/books_screen/view/book_category_screen.dart';
 import 'package:egalee_admin/screens/ilts_screen/view.dart';
 import 'package:egalee_admin/screens/login_screen.dart';
+import 'package:egalee_admin/screens/common_data_screen/slider_image_upload_screen.dart';
+import 'package:egalee_admin/screens/common_data_screen/update_contact_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             HomeOptionCard(
               title: 'Hsc & University Preparation',
-              icon: Icons.grain_rounded,
+              icon: Icons.school_outlined,
               ontap: () {
                 Navigator.push<void>(
                   context,
@@ -62,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             HomeOptionCard(
               title: 'Job Preparation',
-              icon: Icons.pie_chart_sharp,
+              icon: Icons.extension_sharp,
               ontap: () {
                 Navigator.push<void>(
                   context,
@@ -115,7 +117,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => SkillCareerModuleScreen(),
+                    builder: (BuildContext context) =>
+                        SkillCareerModuleScreen(),
+                  ),
+                );
+              },
+            ),
+            HomeOptionCard(
+              title: 'Slider images',
+              icon: Icons.image_outlined,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => SliderScreen(),
+                  ),
+                );
+              },
+            ),
+            HomeOptionCard(
+              title: 'Support info',
+              icon: Icons.support_agent,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        SupportInfoUpdateScreen(),
                   ),
                 );
               },
