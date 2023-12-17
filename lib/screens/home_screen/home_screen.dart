@@ -50,6 +50,29 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+                 HomeOptionCard(
+              title: 'Job Preparation',
+              icon: Icons.extension_sharp,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => JobPreparationScreen(),
+                  ),
+                );
+              },
+            ),        HomeOptionCard(
+              title: 'Books',
+              icon: Icons.menu_book_rounded,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => BooksCategoriesScreen(),
+                  ),
+                );
+              },
+            ),
             HomeOptionCard(
               title: 'Hsc & University Preparation',
               icon: Icons.school_outlined,
@@ -62,18 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            HomeOptionCard(
-              title: 'Job Preparation',
-              icon: Icons.extension_sharp,
-              ontap: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => JobPreparationScreen(),
-                  ),
-                );
-              },
-            ),
+       
             HomeOptionCard(
               title: 'Job Circular',
               icon: Icons.work,
@@ -87,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             HomeOptionCard(
-              title: 'IELTS Details',
+              title: 'IELTS Preparation',
               icon: Icons.language,
               ontap: () {
                 Navigator.push<void>(
@@ -98,18 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            HomeOptionCard(
-              title: 'Books',
-              icon: Icons.menu_book_rounded,
-              ontap: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => BooksCategoriesScreen(),
-                  ),
-                );
-              },
-            ),
+    
             HomeOptionCard(
               title: 'Skills and Career',
               icon: Icons.stacked_line_chart_rounded,

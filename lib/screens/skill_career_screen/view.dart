@@ -274,7 +274,7 @@ List<Module> modules = [
     moduleIcon: Icons.storm_rounded,
   ),
   const Module(
-    moduleName: "Frelancing",
+    moduleName: "Freelancing",
     moduleIcon: Icons.language,
   ),
   const Module(
