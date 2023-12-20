@@ -5,9 +5,11 @@ class AddSubjectScreen extends StatelessWidget {
   AddSubjectScreen({super.key, required this.groupName});
   final String groupName;
   final TextEditingController titleController = TextEditingController();
+  final TextEditingController feeController = TextEditingController();
   void _addCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance.collection('jobprep').doc(groupName).collection('allSubject').add({
       'title': titleController.text,
+      'fee': feeController.text,
     }).then((value) {
       // Document successfully added
       Navigator.pop(context); // Close the current screen
@@ -36,7 +38,11 @@ class AddSubjectScreen extends StatelessWidget {
           children: [
             TextField(
               controller: titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Course Title'),
+            ),  const SizedBox(height: 20,),
+            groupName=='Free course'?Container():TextField(
+              controller: feeController,
+              decoration: const InputDecoration(labelText: 'Course Fee'),
             ),
 
             // Add more TextFields for additional fields if needed
