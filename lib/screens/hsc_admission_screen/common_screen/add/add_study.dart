@@ -86,27 +86,27 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
         title: Text('Add Study In ${widget.subjectName}'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () => _addSubCollectionDocument(context),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
                 controller: titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
               ),
               const SizedBox(
                 height: 10,
               ),
               TextField(
                 controller: subtitleController,
-                decoration: InputDecoration(labelText: 'Subtitle'),
+                decoration: const InputDecoration(labelText: 'Subtitle'),
               ),
               const SizedBox(
                 height: 10,
@@ -114,14 +114,14 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               TextField(
                 maxLines: 5,
                 controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
               ),
               const SizedBox(
                 height: 10,
               ),
               TextField(
                 controller: videoLinkController,
-                decoration: InputDecoration(labelText: 'Video Link'),
+                decoration: const InputDecoration(labelText: 'Video Link'),
               ),
               const SizedBox(
                 height: 10,

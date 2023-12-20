@@ -62,7 +62,7 @@ class AllTopicScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text("$subjectName/All subjects "),
                   ),
                   Expanded(

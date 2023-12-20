@@ -6,7 +6,7 @@ class JobDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('বিস্তারিত')),
+        appBar: AppBar(title: const Text('বিস্তারিত')),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -23,41 +23,41 @@ class JobDetailsScreen extends StatelessWidget {
                         children: [
                           Text(jobdata['title'],
                               style: Theme.of(context).textTheme.titleMedium),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                           Text("subtitle",
                               style: Theme.of(context).textTheme.titleSmall),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                           Text("application deadline",
                               style: Theme.of(context).textTheme.titleSmall),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                           Text("Apply link",
                               style: Theme.of(context).textTheme.bodyMedium),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                           Text(
                             "Source",
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                           Text("Place ",
                               style: Theme.of(context).textTheme.bodySmall),
-                          SizedBox(
+                          const SizedBox(
                             height: 2,
                           ),
                         ]),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
@@ -67,11 +67,11 @@ class JobDetailsScreen extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {},
-                  child: SizedBox(
+                  child: const SizedBox(
                     width: double.infinity,
                     child: Center(child: Text("See On PDF")),
                   )),
-              Text("alert: give here discretions")
+              const Text("alert: give here discretions")
             ],
           ),
         ));

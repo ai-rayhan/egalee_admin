@@ -76,30 +76,30 @@ class _AddExamScreenState extends State<AddExamScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add A Exam '),
+        title: const Text('Add A Exam '),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () => _addSubCollectionDocument(context),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
                 controller: titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
               ),
               const SizedBox(
                 height: 10,
               ),
               TextField(
                 controller: subtitleController,
-                decoration: InputDecoration(labelText: 'Subtitle'),
+                decoration: const InputDecoration(labelText: 'Subtitle'),
               ),
               const SizedBox(
                 height: 10,
@@ -107,7 +107,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
               TextField(
                 keyboardType: TextInputType.number,
                 controller: durationController,
-                decoration: InputDecoration(labelText: 'Duration in minute'),
+                decoration: const InputDecoration(labelText: 'Duration in minute'),
               ),
               const SizedBox(
                 height: 10,
@@ -115,7 +115,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
               TextField(
                 maxLines: 5,
                 controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
               ),
               const SizedBox(
                 height: 10,
@@ -148,7 +148,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text("Locked Content"),
+                  const Text("Locked Content"),
                   Checkbox(
                       value: _islocked,
                       onChanged: (value) {

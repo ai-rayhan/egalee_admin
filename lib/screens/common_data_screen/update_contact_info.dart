@@ -54,7 +54,7 @@ class _SupportInfoUpdateScreenState extends State<SupportInfoUpdateScreen> {
 
     // Show a success message or navigate to another screen
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('User information updated successfully')),
+      const SnackBar(content: Text('User information updated successfully')),
     );
   }
 
@@ -62,33 +62,33 @@ class _SupportInfoUpdateScreenState extends State<SupportInfoUpdateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Support Info'),
+        title: const Text('Update Support Info'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
               controller: _facebookController,
-              decoration: InputDecoration(labelText: 'Facebook Group'),
+              decoration: const InputDecoration(labelText: 'Facebook Group'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
               controller: _whatsappController,
-              decoration: InputDecoration(labelText: 'WhatsApp Number'),
-            ),SizedBox(height: 20),
+              decoration: const InputDecoration(labelText: 'WhatsApp Number'),
+            ),const SizedBox(height: 20),
             TextFormField(
               controller: _gmailController,
-              decoration: InputDecoration(labelText: 'Gmail'),
+              decoration: const InputDecoration(labelText: 'Gmail'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 updateUserInformation();
               },
-              child: Text('Update'),
+              child: const Text('Update'),
             ),
           ],
         ),

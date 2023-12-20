@@ -44,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Control Panel'),
-        actions: [IconButton(onPressed: _logout, icon: Icon(Icons.logout))],
+        title: const Text('Control Panel'),
+        actions: [IconButton(onPressed: _logout, icon: const Icon(Icons.logout))],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -57,18 +57,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => JobPreparationScreen(),
+                    builder: (BuildContext context) => const JobPreparationScreen(),
                   ),
                 );
               },
             ),        HomeOptionCard(
-              title: 'Books',
+              title: 'Book Shop',
               icon: Icons.menu_book_rounded,
               ontap: () {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => BooksCategoriesScreen(),
+                    builder: (BuildContext context) => const BooksCategoriesScreen(),
                   ),
                 );
               },
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => HscAndUniversityPrep(),
+                    builder: (BuildContext context) => const HscAndUniversityPrep(),
                   ),
                 );
               },
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => JobCategoryScreen(),
+                    builder: (BuildContext context) => const JobCategoryScreen(),
                   ),
                 );
               },
@@ -161,8 +161,8 @@ class HomeOptionCard extends StatelessWidget {
   final IconData icon;
   final VoidCallback ontap;
 
-  HomeOptionCard(
-      {required this.title, required this.icon, required this.ontap});
+  const HomeOptionCard(
+      {super.key, required this.title, required this.icon, required this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +175,7 @@ class HomeOptionCard extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20.0,
             ),
           ),

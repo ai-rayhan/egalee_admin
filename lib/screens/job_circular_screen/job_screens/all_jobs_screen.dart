@@ -104,7 +104,7 @@ class _AllJobScreenState extends State<AllJobScreen> {
                           ),
                         );
                       },
-                      leading: CircleAvatar(child: Text((index+1).toString()),radius: 15,),
+                      leading: CircleAvatar(radius: 15,child: Text((index+1).toString()),),
                       trailing: GestureDetector(
                           onTap: () {
                             deleteJobById(jobId,documentData['image']??'');

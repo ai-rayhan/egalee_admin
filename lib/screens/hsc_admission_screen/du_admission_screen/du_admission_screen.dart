@@ -19,7 +19,7 @@ class DUAdmissionScreen extends StatelessWidget {
           children: [
             ListView.separated(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => ListTile(
                     onTap: () {
                       Navigator.push<void>(
@@ -33,7 +33,7 @@ class DUAdmissionScreen extends StatelessWidget {
                       );
                     },
                     title: Text(modules[index].moduleName)),
-                separatorBuilder: (context, index) => Divider(),
+                separatorBuilder: (context, index) => const Divider(),
                 itemCount: modules.length)
           ],
         ),
@@ -54,8 +54,8 @@ class Module {
 }
 
 List<Module> modules = [
-  Module(id: '1', moduleName: "Unit-A"),
-  Module(id: '2', moduleName: "Unit-B"),
-  Module(id: '2', moduleName: "Unit-C"),
-  Module(id: '2', moduleName: "Unit-D"),
+  const Module(id: '1', moduleName: "Unit-A"),
+  const Module(id: '2', moduleName: "Unit-B"),
+  const Module(id: '2', moduleName: "Unit-C"),
+  const Module(id: '2', moduleName: "Unit-D"),
 ];

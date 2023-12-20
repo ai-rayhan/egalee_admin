@@ -6,11 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 
 class SliderScreen extends StatefulWidget {
+  const SliderScreen({super.key});
+
   @override
-  _SliderScreenState createState() => _SliderScreenState();
+  SliderScreenState createState() => SliderScreenState();
 }
 
-class _SliderScreenState extends State<SliderScreen> {
+class SliderScreenState extends State<SliderScreen> {
   List<String> sliderData = [];
 
   @override

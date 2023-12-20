@@ -9,7 +9,7 @@ import '../../../../componants/create_quiz.dart';
 class AddExamScreen extends StatefulWidget {
   final String groupName;
 
-  AddExamScreen({
+  const AddExamScreen({
     Key? key,
     required this.groupName,
   }) : super(key: key);

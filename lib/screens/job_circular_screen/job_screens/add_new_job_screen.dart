@@ -197,7 +197,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("Locked Content"),
+                    const Text("Locked Content"),
                     Checkbox(
                         value: _islocked,
                         onChanged: (value) {

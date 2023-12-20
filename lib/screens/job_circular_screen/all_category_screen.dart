@@ -10,7 +10,7 @@ class JobCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Category"),
+        title: const Text("Category"),
       ),
       body: ListView.builder(
         itemCount: AppStaticData.jobMainCategory.length,

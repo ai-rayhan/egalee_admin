@@ -14,7 +14,7 @@ class SubCategoryListScreen extends StatefulWidget {
 }
 
 class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   delesubcategory(id,imageLink) async {
     await _firestore
         .collection('job_circular')
@@ -41,7 +41,7 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
                   ),
                 );
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -58,7 +58,7 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -102,7 +102,7 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
                           onLongPress: () {
                             delesubcategory(subcategoryId,documentData['image'] ?? '');
                           },
-                          child: Icon(Icons.delete)),
+                          child: const Icon(Icons.delete)),
                     );
                   },
                 ),

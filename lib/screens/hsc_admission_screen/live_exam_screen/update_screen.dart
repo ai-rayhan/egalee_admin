@@ -9,7 +9,7 @@ import '../../../../componants/create_quiz.dart';
 class AddExamScreen extends StatefulWidget {
   final String groupName;
 
-  AddExamScreen({
+  const AddExamScreen({
     Key? key,
     required this.groupName,
   }) : super(key: key);
@@ -174,17 +174,17 @@ class UpdateExamScreen extends StatefulWidget {
   final String documentId;
 
 
-  UpdateExamScreen({
+  const UpdateExamScreen({
     Key? key,
     required this.groupName,
     required this.documentId,
   }) : super(key: key);
 
   @override
-  _UpdateExamScreenState createState() => _UpdateExamScreenState();
+  UpdateExamScreenState createState() => UpdateExamScreenState();
 }
 
-class _UpdateExamScreenState extends State<UpdateExamScreen> {
+class UpdateExamScreenState extends State<UpdateExamScreen> {
   late TextEditingController titleController;
   late TextEditingController subtitleController;
   late TextEditingController descriptionController;

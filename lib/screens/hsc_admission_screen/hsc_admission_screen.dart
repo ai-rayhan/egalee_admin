@@ -20,7 +20,7 @@ class HscAndUniversityPrep extends StatelessWidget {
           children: [
             ListView.separated(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => ListTile(
                     onTap: () {
                       Navigator.push<void>(
@@ -31,7 +31,7 @@ class HscAndUniversityPrep extends StatelessWidget {
                       );
                     },
                     title: Text(modules[index].moduleName)),
-                separatorBuilder: (context, index) => Divider(),
+                separatorBuilder: (context, index) => const Divider(),
                 itemCount: modules.length)
           ],
         ),
@@ -53,32 +53,32 @@ class Module {
 }
 
 List<Module> modules = [
-  Module(
+  const Module(
       moduleName: "HSC Preparation",
       route: HscprepScreen(screenName: 'HSC Preparation')),
-  Module(
+  const Module(
       moduleName: "Admission Question Bank",
       route: AllSubjectScreen(groupName: 'Admission Question Bank')),
-  Module(
+  const Module(
       moduleName: "DU Admission",
       route: DUAdmissionScreen(screenName: 'DU Admission')),
-  Module(
+  const Module(
       moduleName: "GST Admission",
       route: AllSubjectScreen(groupName: 'GST Admission')),
-  Module(
+  const Module(
       moduleName: "Written Preparation",
       route: AllSubjectScreen(groupName: 'Written Preparation')),
-  Module(
+  const Module(
       moduleName: "Medical Admission",
       route: AllSubjectScreen(groupName: 'Medical Admission')),
 
-  Module(
+  const Module(
       moduleName: "Video section",
       route: AllSubjectScreen(groupName: 'Video section')),
-  Module(
+  const Module(
       moduleName: "PDF section",
       route: AllSubjectScreen(groupName: 'PDF section')),
-  Module(
+  const Module(
       moduleName: "Live Exam",
       route: LiveExamSubjectScreen(groupName: 'Live Exam')),
 ];

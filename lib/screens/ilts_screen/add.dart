@@ -9,6 +9,8 @@ class AddModuleScreen extends StatelessWidget {
   final TextEditingController subtitleController = TextEditingController();
   final TextEditingController imageLinkController = TextEditingController();
 
+  AddModuleScreen({super.key});
+
   void _addCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance.collection('ilts').add({
       'title': titleController.text,
@@ -28,30 +30,30 @@ class AddModuleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Collection Document'),
+        title: const Text('Add Collection Document'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () => _addCollectionDocument(context),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             TextField(
               controller: subtitleController,
-              decoration: InputDecoration(labelText: 'Subtitle'),
+              decoration: const InputDecoration(labelText: 'Subtitle'),
             ),
             TextField(
               controller: imageLinkController,
-              decoration: InputDecoration(labelText: 'Image Link'),
+              decoration: const InputDecoration(labelText: 'Image Link'),
             ),
             // Add more TextFields for additional fields if needed
           ],
@@ -127,43 +129,43 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Topic'),
+        title: const Text('Add Topic'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () => _addSubCollectionDocument(context),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             const SizedBox(
               height: 10,
             ),
             TextField(
               controller: subtitleController,
-              decoration: InputDecoration(labelText: 'Subtitle'),
+              decoration: const InputDecoration(labelText: 'Subtitle'),
             ),
             const SizedBox(
               height: 10,
             ),
             TextField(
               controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
             ),
             const SizedBox(
               height: 10,
             ),
             TextField(
               controller: videoLinkController,
-              decoration: InputDecoration(labelText: 'Video Link'),
+              decoration: const InputDecoration(labelText: 'Video Link'),
             ),
             const SizedBox(
               height: 10,

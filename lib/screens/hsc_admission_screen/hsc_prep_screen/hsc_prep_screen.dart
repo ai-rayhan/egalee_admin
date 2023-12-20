@@ -18,7 +18,7 @@ class HscprepScreen extends StatelessWidget {
           children: [
             ListView.separated(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => ListTile(
                     onTap: () {
                       Navigator.push<void>(
@@ -30,7 +30,7 @@ class HscprepScreen extends StatelessWidget {
                       );
                     },
                     title: Text(modules[index].moduleName)),
-                separatorBuilder: (context, index) => Divider(),
+                separatorBuilder: (context, index) => const Divider(),
                 itemCount: modules.length)
           ],
         ),
@@ -51,7 +51,7 @@ class Module {
 }
 
 List<Module> modules = [
-  Module(id: '1', moduleName: "মানবিক"),
-  Module(id: '2', moduleName: "বিজ্ঞান"),
-  Module(id: '2', moduleName: "ব্যবসায়"),
+  const Module(id: '1', moduleName: "মানবিক"),
+  const Module(id: '2', moduleName: "বিজ্ঞান"),
+  const Module(id: '2', moduleName: "ব্যবসায়"),
 ];

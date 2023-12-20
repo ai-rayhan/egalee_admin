@@ -73,10 +73,10 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Job Category'),
+        title: const Text('Add Job Category'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -84,7 +84,7 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter Title';
@@ -95,7 +95,7 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
                   const SizedBox(height: 10,),
               TextFormField(
                 controller: _subtitleController,
-                decoration: InputDecoration(labelText: 'Subtitle'),
+                decoration: const InputDecoration(labelText: 'Subtitle'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter Subtitle';
@@ -115,10 +115,10 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
                     decoration: const InputDecoration(labelText: 'Image URL'),
                   ),
                 ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: _addJobCategoryToFirestore,
-                child: Text('Add Job Category'),
+                child: const Text('Add Job Category'),
               ),
             ],
           ),
@@ -140,7 +140,7 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
       };
       PostRequest.execute(collectionReference, data).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Job Category added to Firestore')),
+          const SnackBar(content: Text('Job Category added to Firestore')),
         );
         // Clear text fields after adding data
 

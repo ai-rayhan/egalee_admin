@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(), // Admin-specific page
+              builder: (context) => const HomeScreen(), // Admin-specific page
             ),
           );
         } else {
@@ -63,14 +63,14 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Access Denied"),
-              content: Text("You do not have admin privileges."),
+              title: const Text("Access Denied"),
+              content: const Text("You do not have admin privileges."),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("OK"),
+                  child: const Text("OK"),
                 ),
               ],
             );
@@ -93,14 +93,14 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Login Error"),
+              title: const Text("Login Error"),
               content: Text("There was an error during login: $e"),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("OK"),
+                  child: const Text("OK"),
                 ),
               ],
             );
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Egalee Admin'),
+        title: const Text('Egalee Admin'),
       ),
       body: Center(
         child: Padding(
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(labelText: 'Email'),
                   validator: (value) {
                     if (value!.isEmpty || !value.contains('@')) {
                       return 'Invalid email';
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Password'),
+                  decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty || value.length < 6) {
@@ -149,12 +149,12 @@ class _LoginPageState extends State<LoginPage> {
                     _password = value;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _isLoading
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: _isLoading ? null : _login,
-                        child: Text('Login'),
+                        child: const Text('Login'),
                       ),
               ],
             ),

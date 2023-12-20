@@ -26,7 +26,7 @@ class ModuleScreen extends StatelessWidget {
         ),
         body: ListView.separated(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
                     Navigator.push<void>(
@@ -44,7 +44,7 @@ class ModuleScreen extends StatelessWidget {
                       moduleName: modules[index].moduleName,
                       moduleIcon: modules[index].moduleIcon),
                 ),
-            separatorBuilder: (context, index) => Divider(),
+            separatorBuilder: (context, index) => const Divider(),
             itemCount: modules.length)
         //            FutureBuilder(
         //   future: FirebaseFirestore.instance.collection('ilts').get(),
@@ -270,27 +270,27 @@ class Module {
 }
 
 List<Module> modules = [
-  Module(
+  const Module(
     moduleName: "Reading Module",
     moduleIcon: Icons.sticky_note_2_rounded,
   ),
-  Module(
+  const Module(
     moduleName: "Writing Module",
     moduleIcon: Icons.edit_note_outlined,
   ),
-  Module(
+  const Module(
     moduleName: "Listening Module",
     moduleIcon: Icons.hearing,
   ),
-  Module(
+  const Module(
     moduleName: "Speaking Module",
     moduleIcon: Icons.mic,
   ),
-  Module(
+  const Module(
     moduleName: "Scholarship Info",
     moduleIcon: Icons.school,
   ),
-  Module(
+  const Module(
     moduleName: "FB Group",
     moduleIcon: Icons.group,
   ),

@@ -9,6 +9,8 @@ class AddBooksCategoryScreen extends StatelessWidget {
   final TextEditingController subtitleController = TextEditingController();
   final TextEditingController imageLinkController = TextEditingController();
 
+  AddBooksCategoryScreen({super.key});
+
   void _addCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance.collection('books').add({
       'title': titleController.text,
@@ -29,22 +31,22 @@ class AddBooksCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Book Category'),
+        title: const Text('Add Book Category'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () => _addCollectionDocument(context),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             // TextField(
             //   controller: subtitleController,
@@ -133,29 +135,29 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add A Book'),
+        title: const Text('Add A Book'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () => _addSubCollectionDocument(context),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             const SizedBox(
               height: 10,
             ),
             TextField(
               controller: subtitleController,
-              decoration: InputDecoration(labelText: 'Writer Name'),
+              decoration: const InputDecoration(labelText: 'Writer Name'),
             ),
             const SizedBox(
               height: 10,
@@ -163,14 +165,14 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
             TextField(
             
               controller: descriptionController,
-              decoration: InputDecoration(labelText: 'PDF Link'),
+              decoration: const InputDecoration(labelText: 'PDF Link'),
             ),
             const SizedBox(
               height: 10,
             ),
             TextField(
               controller: priceController,
-              decoration: InputDecoration(labelText: 'Price'),
+              decoration: const InputDecoration(labelText: 'Price'),
             ),
             const SizedBox(
               height: 10,
