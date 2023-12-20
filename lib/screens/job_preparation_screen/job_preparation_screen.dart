@@ -65,6 +65,9 @@ List<Module> modules = [
       moduleName: "Bank Job Preparation",
       route: AllSubjectScreen(groupName: 'Bank Job Preparation')),
   const Module(
+      moduleName: "NTRCA & Primary Preparation",
+      route: AllSubjectScreen(groupName: 'NTRCA & Primary Preparation')),
+  const Module(
       moduleName: "Recent Job Solution",
       route: LiveExamSubjectScreen(groupName: 'Recent Job Solution')),
   const Module(

@@ -11,7 +11,7 @@ class AddTopicScreen extends StatefulWidget {
   final String subjectId;
   final String subjectName;
 
-  AddTopicScreen(
+  const AddTopicScreen(
       {Key? key,
       required this.groupName,
       required this.subjectId,
@@ -79,6 +79,42 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     }
   }
 
+  bool checkOnlyMCQ() {
+    if (widget.groupName == 'Job Solution' ||
+        widget.groupName == 'BCS Preparation' ||
+        widget.groupName == 'NTRCA & Primary Preparation' ||
+        widget.groupName == 'Bank Job Preparation') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool checkonlyVideo() {
+    if (widget.groupName == 'Written Preparation' ||
+        widget.groupName == 'Video section') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool nonpdf() {
+    if (widget.groupName == 'Viva Preparation') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool nonMCQ() {
+    if (widget.groupName == 'PDF section') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,55 +152,70 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                 controller: descriptionController,
                 decoration: const InputDecoration(labelText: 'Description'),
               ),
+              checkOnlyMCQ()
+                  ? Container()
+                  : Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        widget.groupName == 'PDF section'
+                            ? Container()
+                            : TextField(
+                                controller: videoLinkController,
+                                decoration: const InputDecoration(
+                                    labelText: 'Video Link'),
+                              ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        checkonlyVideo() || nonpdf()
+                            ? Container()
+                            : GestureDetector(
+                                onTap: () async {
+                                  await pickFile(); // Pick file using file_picker
+                                  if (_file != null) {
+                                    await uploadFile();
+                                  }
+                                },
+                                child: TextFormField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      labelText: imagelink == null
+                                          ? 'Pick a PDF'
+                                          : '$imagelink'),
+                                ),
+                              ),
+                      ],
+                    ),
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                controller: videoLinkController,
-                decoration: const InputDecoration(labelText: 'Video Link'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  await pickFile(); // Pick file using file_picker
-                  if (_file != null) {
-                    await uploadFile();
-                  }
-                },
-                child: TextFormField(
-                  enabled: false,
-                  decoration: InputDecoration(
-                      labelText:
-                          imagelink == null ? 'Pick a PDF' : '$imagelink'),
-                ),
-              ),
-               const SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QuizInputPage()),
-                  );
-          
-                  if (result != null) {
-                    setState(() {
-                      quizfileLink = result;
-                    });
-                    debugPrint('Received data from Screen : $result');
-                  }
-                },
-                child: TextFormField(
-                  enabled: false,
-                  decoration: InputDecoration(
-                      labelText:
-                          quizfileLink == null ? 'Add MCQ' : quizfileLink!),
-                ),
-              )
-              // Add more TextFields for additional fields if needed
+              checkonlyVideo() || nonMCQ()
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => QuizInputPage()),
+                        );
+
+                        if (result != null) {
+                          setState(() {
+                            quizfileLink = result;
+                          });
+                          debugPrint('Received data from Screen : $result');
+                        }
+                      },
+                      child: TextFormField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            labelText: quizfileLink == null
+                                ? 'Add MCQ'
+                                : quizfileLink!),
+                      ),
+                    )
             ],
           ),
         ),

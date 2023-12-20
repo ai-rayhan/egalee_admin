@@ -9,6 +9,8 @@ class AddModuleScreen extends StatelessWidget {
   final TextEditingController subtitleController = TextEditingController();
   final TextEditingController imageLinkController = TextEditingController();
 
+  AddModuleScreen({super.key});
+
   void _addCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance.collection('skillcareer').add({
       'title': titleController.text,
@@ -64,7 +66,7 @@ class AddModuleScreen extends StatelessWidget {
 class AddTopicScreen extends StatefulWidget {
   final String documentId;
 
-  AddTopicScreen({Key? key, required this.documentId}) : super(key: key);
+  const AddTopicScreen({Key? key, required this.documentId}) : super(key: key);
 
   @override
   State<AddTopicScreen> createState() => _AddTopicScreenState();

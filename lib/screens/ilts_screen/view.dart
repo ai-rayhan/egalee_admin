@@ -10,19 +10,6 @@ class ModuleScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('All Modules'),
-          // actions: [
-          //   IconButton(
-          //     icon: const Icon(Icons.add),
-          //     onPressed: () {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => AddModuleScreen(),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ],
         ),
         body: ListView.separated(
             shrinkWrap: true,
@@ -46,51 +33,6 @@ class ModuleScreen extends StatelessWidget {
                 ),
             separatorBuilder: (context, index) => const Divider(),
             itemCount: modules.length)
-        //            FutureBuilder(
-        //   future: FirebaseFirestore.instance.collection('ilts').get(),
-        //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return const Center(
-        //         child: CircularProgressIndicator(),
-        //       );
-        //     } else if (snapshot.hasError) {
-        //       return Center(
-        //         child: Text('Error: ${snapshot.error}'),
-        //       );
-        //     } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        //       return const Center(
-        //         child: Text('No data available'),
-        //       );
-        //     } else {
-        //       return ListView.builder(
-        //         itemCount: snapshot.data!.docs.length,
-        //         itemBuilder: (context, index) {
-        //           var document = snapshot.data!.docs[index];
-        //           return GestureDetector(
-        //             onTap: () {
-        //               Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(
-        //                   builder: (context) => TopicListScreen(
-        //                     documentId: document.id,
-        //                     moduleName: document['title'],
-        //                   ),
-        //                 ),
-        //               );
-        //             },
-        //             child: Card(
-        //               child: ListTile(
-        //                 title: Text(document['title']),
-        //                 subtitle: Text(document['subtitle']),
-        //                 // leading: Image.network(document['imageLink']),
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //       );
-        //     }
-        //   },
-        // ),
         );
   }
 }
@@ -102,14 +44,6 @@ class TopicListScreen extends StatelessWidget {
   const TopicListScreen(
       {Key? key, required this.documentId, required this.moduleName})
       : super(key: key);
-  // Future<void> _deleteTopic(id) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('ilts')
-  //       .doc(documentId)
-  //       .collection('topics')
-  //       .doc(id)
-  //       .delete();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +225,7 @@ List<Module> modules = [
     moduleIcon: Icons.school,
   ),
   const Module(
-    moduleName: "FB Group",
-    moduleIcon: Icons.group,
+    moduleName: "Visa Processing",
+    moduleIcon: Icons.wifi_protected_setup,
   ),
 ];
