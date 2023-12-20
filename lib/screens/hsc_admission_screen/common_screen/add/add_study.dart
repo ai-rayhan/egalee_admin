@@ -11,7 +11,7 @@ class AddTopicScreen extends StatefulWidget {
   final String subjectId;
   final String subjectName;
 
-  AddTopicScreen(
+  const AddTopicScreen(
       {Key? key,
       required this.groupName,
       required this.subjectId,
@@ -79,6 +79,31 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     }
   }
 
+  bool onlyMCQ() {
+    if (widget.groupName == 'Admission Question Bank' ||
+        widget.groupName == 'GST Admission') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool onlyVideo() {
+    if (widget.groupName == 'Video section') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool onlyPdf() {
+    if (widget.groupName == 'PDF section') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,51 +144,67 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                controller: videoLinkController,
-                decoration: const InputDecoration(labelText: 'Video Link'),
-              ),
+              onlyMCQ()
+                  ? Container()
+                  : Column(
+                      children: [
+                        onlyPdf()
+                            ? Container()
+                            : TextField(
+                                controller: videoLinkController,
+                                decoration: const InputDecoration(
+                                    labelText: 'Video Link'),
+                              ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        onlyVideo()
+                            ? Container()
+                            : GestureDetector(
+                                onTap: () async {
+                                  await pickFile(); // Pick file using file_picker
+                                  if (_file != null) {
+                                    await uploadFile();
+                                  }
+                                },
+                                child: TextFormField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      labelText: imagelink == null
+                                          ? 'Pick a PDF'
+                                          : '$imagelink'),
+                                ),
+                              ),
+                      ],
+                    ),
               const SizedBox(
                 height: 10,
               ),
-              GestureDetector(
-                onTap: () async {
-                  await pickFile(); // Pick file using file_picker
-                  if (_file != null) {
-                    await uploadFile();
-                  }
-                },
-                child: TextFormField(
-                  enabled: false,
-                  decoration: InputDecoration(
-                      labelText:
-                          imagelink == null ? 'Pick a PDF' : '$imagelink'),
-                ),
-              ),
-               const SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QuizInputPage()),
-                  );
-          
-                  if (result != null) {
-                    setState(() {
-                      quizfileLink = result;
-                    });
-                    debugPrint('Received data from Screen : $result');
-                  }
-                },
-                child: TextFormField(
-                  enabled: false,
-                  decoration: InputDecoration(
-                      labelText:
-                          quizfileLink == null ? 'Add MCQ' : quizfileLink!),
-                ),
-              )
+              onlyPdf() || onlyVideo()
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => QuizInputPage()),
+                        );
+
+                        if (result != null) {
+                          setState(() {
+                            quizfileLink = result;
+                          });
+                          debugPrint('Received data from Screen : $result');
+                        }
+                      },
+                      child: TextFormField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            labelText: quizfileLink == null
+                                ? 'Add MCQ'
+                                : quizfileLink!),
+                      ),
+                    )
               // Add more TextFields for additional fields if needed
             ],
           ),
