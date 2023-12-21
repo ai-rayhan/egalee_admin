@@ -1,8 +1,10 @@
 import 'package:egalee_admin/screens/books_screen/view/book_category_screen.dart';
+import 'package:egalee_admin/screens/course_unlock_request_screen/course_unlock_request_screen.dart';
 import 'package:egalee_admin/screens/ilts_screen/view.dart';
 import 'package:egalee_admin/screens/login_screen.dart';
 import 'package:egalee_admin/screens/common_data_screen/slider_image_upload_screen.dart';
 import 'package:egalee_admin/screens/common_data_screen/update_contact_info.dart';
+import 'package:egalee_admin/screens/payment_details/payment_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -131,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push<void>(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => SliderScreen(),
+                    builder: (BuildContext context) => const SliderScreen(),
                   ),
                 );
               },
@@ -145,6 +147,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
                         SupportInfoUpdateScreen(),
+                  ),
+                );
+              },
+            ),
+            HomeOptionCard(
+              title: 'Payment info',
+              icon: Icons.payment,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const PaymentDetailsScreen(),
+                  ),
+                );
+              },
+            ),
+            HomeOptionCard(
+              title: 'Payment info',
+              icon: Icons.payment,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const RequestAcceptScreen(),
                   ),
                 );
               },

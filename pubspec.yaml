@@ -41,6 +41,7 @@ dependencies:
   firebase_storage: ^11.5.3
   file_picker: ^6.1.1
   intl: ^0.18.1
+  firebase_messaging: ^14.7.9
 
 dev_dependencies:
   flutter_test:
