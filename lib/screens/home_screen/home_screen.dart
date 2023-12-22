@@ -165,8 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             HomeOptionCard(
-              title: 'Payment info',
-              icon: Icons.payment,
+              title: 'Course Unlock Request',
+              icon: Icons.lock_open_outlined,
               ontap: () {
                 Navigator.push<void>(
                   context,

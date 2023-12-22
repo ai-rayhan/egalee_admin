@@ -44,7 +44,7 @@ Future<List<DocumentSnapshot>> getRequestDetails() async {
           requestSnapshot.data() as Map<String, dynamic>;
 
       // Save the course in the user's 'courses' collection
-      String courseId = requestData['courseId'];
+      // String courseId = requestData['courseId'];
       await _firestore
           .collection('users')
           .doc(userId)
