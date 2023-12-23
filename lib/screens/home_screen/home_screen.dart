@@ -126,6 +126,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
+               HomeOptionCard(
+              title: 'Course Unlock Request',
+              icon: Icons.lock_open_outlined,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const RequestAcceptScreen(),
+                  ),
+                );
+              },
+            ),
             HomeOptionCard(
               title: 'Slider images',
               icon: Icons.image_outlined,
@@ -164,19 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            HomeOptionCard(
-              title: 'Course Unlock Request',
-              icon: Icons.lock_open_outlined,
-              ontap: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) =>
-                        const RequestAcceptScreen(),
-                  ),
-                );
-              },
-            ),
+         
           ],
         ),
       ),

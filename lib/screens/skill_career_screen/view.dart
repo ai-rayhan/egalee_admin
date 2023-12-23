@@ -9,19 +9,6 @@ class SkillCareerModuleScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('All Modules'),
-          // actions: [
-          //   IconButton(
-          //     icon: const Icon(Icons.add),
-          //     onPressed: () {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => AddModuleScreen(),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ],
         ),
         body: ListView.separated(
             shrinkWrap: true,
@@ -39,57 +26,28 @@ class SkillCareerModuleScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  child: ModuleCard(
-                      moduleName: modules[index].moduleName,
-                      moduleIcon: modules[index].moduleIcon),
+                  child: ListTile(
+                  leading: Icon(modules[index].moduleIcon),
+                  title: Text(modules[index].moduleName),
+                  trailing: IconButton(
+                      onPressed: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                UpdatePriceScreen(
+                              documentId:
+                                  modules[index].moduleName.replaceAll(' ', ''),
+                            ),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.edit)),
+                )
                 ),
             separatorBuilder: (context, index) => Divider(),
             itemCount: modules.length)
-        //            FutureBuilder(
-        //   future: FirebaseFirestore.instance.collection('ilts').get(),
-        //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return const Center(
-        //         child: CircularProgressIndicator(),
-        //       );
-        //     } else if (snapshot.hasError) {
-        //       return Center(
-        //         child: Text('Error: ${snapshot.error}'),
-        //       );
-        //     } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        //       return const Center(
-        //         child: Text('No data available'),
-        //       );
-        //     } else {
-        //       return ListView.builder(
-        //         itemCount: snapshot.data!.docs.length,
-        //         itemBuilder: (context, index) {
-        //           var document = snapshot.data!.docs[index];
-        //           return GestureDetector(
-        //             onTap: () {
-        //               Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(
-        //                   builder: (context) => TopicListScreen(
-        //                     documentId: document.id,
-        //                     moduleName: document['title'],
-        //                   ),
-        //                 ),
-        //               );
-        //             },
-        //             child: Card(
-        //               child: ListTile(
-        //                 title: Text(document['title']),
-        //                 subtitle: Text(document['subtitle']),
-        //                 // leading: Image.network(document['imageLink']),
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //       );
-        //     }
-        //   },
-        // ),
+    
         );
   }
 }
@@ -101,14 +59,6 @@ class TopicListScreen extends StatelessWidget {
   const TopicListScreen(
       {Key? key, required this.documentId, required this.moduleName})
       : super(key: key);
-  // Future<void> _deleteTopic(id) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('ilts')
-  //       .doc(documentId)
-  //       .collection('topics')
-  //       .doc(id)
-  //       .delete();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -287,3 +237,96 @@ List<Module> modules = [
   ),
 ];
 
+
+class UpdatePriceScreen extends StatefulWidget {
+  final String documentId;
+
+  UpdatePriceScreen({Key? key, required this.documentId}) : super(key: key);
+
+  @override
+  _UpdatePriceScreenState createState() => _UpdatePriceScreenState();
+}
+
+class _UpdatePriceScreenState extends State<UpdatePriceScreen> {
+  late TextEditingController regularFeeController;
+  late TextEditingController offerFeeController;
+
+  @override
+  void initState() {
+    super.initState();
+    regularFeeController = TextEditingController();
+    offerFeeController = TextEditingController();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('skillcareer')
+          .doc(widget.documentId)
+          .get();
+
+      if (documentSnapshot.exists) {
+        setState(() {
+          regularFeeController.text = documentSnapshot['fee'] ?? '';
+          offerFeeController.text = documentSnapshot['offerfee'] ?? '';
+          // Set other fields if needed
+        });
+      }
+    } catch (error) {
+      print("Error fetching data: $error");
+    }
+  }
+
+  void _addCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance.collection('skillcareer').doc(widget.documentId).set({
+      'fee': regularFeeController.text,
+      'offerfee': offerFeeController.text,
+      // Add other fields as needed
+    }).then((value) {
+      // Document successfully added
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Update Collection Document'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () => _addCollectionDocument(context),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: regularFeeController,
+              decoration: const InputDecoration(labelText: 'Regular fee'),
+            ),
+            TextField(
+              controller: offerFeeController,
+              decoration: const InputDecoration(labelText: 'Offer fee'),
+            ),
+            // Add more TextFields for additional fields if needed
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    regularFeeController.dispose();
+    offerFeeController.dispose();
+    super.dispose();
+  }
+}

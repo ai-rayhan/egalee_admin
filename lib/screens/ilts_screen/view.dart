@@ -15,25 +15,38 @@ class ModuleScreen extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => TopicListScreen(
-                          documentId:
-                              modules[index].moduleName.replaceAll(' ', ''),
-                          moduleName: modules[index].moduleName,
-                        ),
+                onTap: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => TopicListScreen(
+                        documentId:
+                            modules[index].moduleName.replaceAll(' ', ''),
+                        moduleName: modules[index].moduleName,
                       ),
-                    );
-                  },
-                  child: ModuleCard(
-                      moduleName: modules[index].moduleName,
-                      moduleIcon: modules[index].moduleIcon),
-                ),
+                    ),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(modules[index].moduleIcon),
+                  title: Text(modules[index].moduleName),
+                  trailing: IconButton(
+                      onPressed: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                UpdatePriceScreen(
+                              documentId:
+                                  modules[index].moduleName.replaceAll(' ', ''),
+                            ),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.edit)),
+                )),
             separatorBuilder: (context, index) => const Divider(),
-            itemCount: modules.length)
-        );
+            itemCount: modules.length));
   }
 }
 
@@ -68,7 +81,8 @@ class TopicListScreen extends StatelessWidget {
         future: FirebaseFirestore.instance
             .collection('ilts')
             .doc(documentId)
-            .collection('topics').orderBy('timestamp', descending: true)
+            .collection('topics')
+            .orderBy('timestamp', descending: true)
             .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -103,7 +117,11 @@ class TopicListScreen extends StatelessWidget {
                           subtitle: Text(subDocument['subtitle']),
                           trailing: IconButton(
                               onPressed: () {
-                                _deleteTopic(subDocumentId, context,subDocument['pdfLink']??'',subDocument['videoLink']??'');
+                                _deleteTopic(
+                                    subDocumentId,
+                                    context,
+                                    subDocument['pdfLink'] ?? '',
+                                    subDocument['videoLink'] ?? '');
                               },
                               icon: const Icon(Icons.delete)),
                         ),
@@ -119,7 +137,8 @@ class TopicListScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteTopic(id, BuildContext context,videoLink,pdfLink) async {
+  Future<void> _deleteTopic(
+      id, BuildContext context, videoLink, pdfLink) async {
     // Show a loading indicator while deleting
     showLoadingDialog(context);
 
@@ -130,8 +149,8 @@ class TopicListScreen extends StatelessWidget {
           .collection('topics')
           .doc(id)
           .delete();
-          await FiledeleteUtils.deleteImageFromFirebaseStorage(videoLink);
-          await FiledeleteUtils.deleteImageFromFirebaseStorage(pdfLink);
+      await FiledeleteUtils.deleteImageFromFirebaseStorage(videoLink);
+      await FiledeleteUtils.deleteImageFromFirebaseStorage(pdfLink);
       // If deletion is successful, show a success Snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -176,22 +195,6 @@ class TopicListScreen extends StatelessWidget {
   }
 }
 
-class ModuleCard extends StatelessWidget {
-  const ModuleCard({
-    Key? key,
-    required this.moduleName,
-    required this.moduleIcon,
-  }) : super(key: key);
-
-  final String moduleName;
-  final IconData moduleIcon;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(leading: Icon(moduleIcon), title: Text(moduleName));
-  }
-}
-
 class Module {
   const Module({
     Key? key,
@@ -229,3 +232,97 @@ List<Module> modules = [
     moduleIcon: Icons.wifi_protected_setup,
   ),
 ];
+
+
+class UpdatePriceScreen extends StatefulWidget {
+  final String documentId;
+
+  UpdatePriceScreen({Key? key, required this.documentId}) : super(key: key);
+
+  @override
+  _UpdatePriceScreenState createState() => _UpdatePriceScreenState();
+}
+
+class _UpdatePriceScreenState extends State<UpdatePriceScreen> {
+  late TextEditingController regularFeeController;
+  late TextEditingController offerFeeController;
+
+  @override
+  void initState() {
+    super.initState();
+    regularFeeController = TextEditingController();
+    offerFeeController = TextEditingController();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('ilts')
+          .doc(widget.documentId)
+          .get();
+
+      if (documentSnapshot.exists) {
+        setState(() {
+          regularFeeController.text = documentSnapshot['fee'] ?? '';
+          offerFeeController.text = documentSnapshot['offerfee'] ?? '';
+          // Set other fields if needed
+        });
+      }
+    } catch (error) {
+      print("Error fetching data: $error");
+    }
+  }
+
+  void _addCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance.collection('ilts').doc(widget.documentId).set({
+      'fee': regularFeeController.text,
+      'offerfee': offerFeeController.text,
+      // Add other fields as needed
+    }).then((value) {
+      // Document successfully added
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Update Collection Document'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () => _addCollectionDocument(context),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: regularFeeController,
+              decoration: const InputDecoration(labelText: 'Regular fee'),
+            ),
+            TextField(
+              controller: offerFeeController,
+              decoration: const InputDecoration(labelText: 'Offer fee'),
+            ),
+            // Add more TextFields for additional fields if needed
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    regularFeeController.dispose();
+    offerFeeController.dispose();
+    super.dispose();
+  }
+}
