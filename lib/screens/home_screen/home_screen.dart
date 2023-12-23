@@ -1,4 +1,5 @@
 import 'package:egalee_admin/screens/books_screen/view/book_category_screen.dart';
+import 'package:egalee_admin/screens/course_unlock_request_screen/books_buy_request_screen.dart';
 import 'package:egalee_admin/screens/course_unlock_request_screen/course_unlock_request_screen.dart';
 import 'package:egalee_admin/screens/ilts_screen/view.dart';
 import 'package:egalee_admin/screens/login_screen.dart';
@@ -135,6 +136,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
                         const RequestAcceptScreen(),
+                  ),
+                );
+              },
+            ),
+               HomeOptionCard(
+              title: 'Book Buy Request',
+              icon: Icons.menu_book_rounded,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const BookBuyRequestScreen(),
                   ),
                 );
               },
