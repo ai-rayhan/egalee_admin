@@ -83,21 +83,21 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     if (widget.groupName == 'Job Solution' ||
         widget.groupName == 'BCS Preparation' ||
         widget.groupName == 'NTRCA & Primary Preparation' ||
-        widget.groupName == 'Bank Job Preparation') {
+        widget.groupName == 'Bank Job Preparation'|| widget.groupName == 'Recent Job Solution') {
       return true;
     } else {
       return false;
     }
   }
 
-  bool checkonlyVideo() {
-    if (widget.groupName == 'Written Preparation' ||
-        widget.groupName == 'Video section') {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // bool checkonlyVideo() {
+  //   if (widget.groupName == 'Written Preparation' ||
+  //       widget.groupName == 'Video section') {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   bool nonpdf() {
     if (widget.groupName == 'Viva Preparation') {
@@ -108,7 +108,16 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   }
 
   bool nonMCQ() {
-    if (widget.groupName == 'PDF section') {
+    if (widget.groupName == 'PDF section'|| widget.groupName == 'Viva Preparation'||widget.groupName=='Free course'||widget.groupName == 'Written Preparation' ||
+        widget.groupName == 'Video section') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  bool nonDescription() {
+    if (widget.groupName == 'PDF section'||widget.groupName == 'Written Preparation' ||
+        widget.groupName == 'Video section') {
       return true;
     } else {
       return false;
@@ -133,21 +142,27 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
+                checkOnlyMCQ()
+                  ? Container()
+                  : TextField(
                 controller: titleController,
                 decoration: const InputDecoration(labelText: 'Title'),
               ),
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                controller: subtitleController,
-                decoration: const InputDecoration(labelText: 'Subtitle'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextField(
+              //   checkOnlyMCQ()
+              //     ? Container()
+              //     : TextField(
+              //   controller: subtitleController,
+              //   decoration: const InputDecoration(labelText: 'Subtitle'),
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+                checkOnlyMCQ()||nonDescription()
+                  ? Container()
+                  : TextField(
                 maxLines: 5,
                 controller: descriptionController,
                 decoration: const InputDecoration(labelText: 'Description'),
@@ -169,7 +184,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        checkonlyVideo() || nonpdf()
+                         nonpdf()
                             ? Container()
                             : GestureDetector(
                                 onTap: () async {
@@ -191,7 +206,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               const SizedBox(
                 height: 10,
               ),
-              checkonlyVideo() || nonMCQ()
+               nonMCQ()
                   ? Container()
                   : GestureDetector(
                       onTap: () async {

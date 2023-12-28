@@ -28,12 +28,12 @@ class _AddExamScreenState extends State<AddExamScreen> {
   final bool _isresultPublished = false;
   void _addSubCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance
-        .collection('hscadmission')
+        .collection('jobprep')
         .doc(widget.groupName)
         .collection('allexam')
         .add({
       'title': titleController.text,
-      'subtitle': subtitleController.text,
+      // 'subtitle': subtitleController.text,
       'description': descriptionController.text,
       'timestamp': Timestamp.fromDate(DateTime.now()),
       'quizLink': quizfileLink,
@@ -97,13 +97,13 @@ class _AddExamScreenState extends State<AddExamScreen> {
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                controller: subtitleController,
-                decoration: InputDecoration(labelText: 'Subtitle'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+              // TextField(
+              //   controller: subtitleController,
+              //   decoration: InputDecoration(labelText: 'Subtitle'),
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
               TextField(
                 keyboardType: TextInputType.number,
                 controller: durationController,
@@ -145,19 +145,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("Locked Content"),
-                  Checkbox(
-                      value: _islocked,
-                      onChanged: (value) {
-                        setState(() {
-                          _islocked = !_islocked;
-                        });
-                      })
-                ],
-              )
+      
 
               // Add more TextFields for additional fields if needed
             ],

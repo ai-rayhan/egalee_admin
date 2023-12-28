@@ -69,7 +69,7 @@ List<Module> modules = [
       route: AllSubjectScreen(groupName: 'NTRCA & Primary Preparation')),
   const Module(
       moduleName: "Recent Job Solution",
-      route: LiveExamSubjectScreen(groupName: 'Recent Job Solution')),
+      route: AllSubjectScreen(groupName: 'Recent Job Solution')),
   const Module(
       moduleName: "Written Preparation",
       route: AllSubjectScreen(groupName: 'Written Preparation')),

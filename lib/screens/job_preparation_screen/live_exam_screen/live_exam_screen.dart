@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/componants/snakbar.dart';
-import 'package:egalee_admin/screens/hsc_admission_screen/live_exam_screen/add_exam_screen.dart';
+import 'package:egalee_admin/screens/job_preparation_screen/live_exam_screen/add_exam_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../componants/dialogs/deleting_dialog.dart';
