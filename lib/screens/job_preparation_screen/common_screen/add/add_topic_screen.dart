@@ -25,7 +25,7 @@ class AddTopicScreen extends StatefulWidget {
 class _AddTopicScreenState extends State<AddTopicScreen> {
   final TextEditingController titleController = TextEditingController();
 
-  final TextEditingController subtitleController = TextEditingController();
+  // final TextEditingController subtitleController = TextEditingController();
 
   final TextEditingController descriptionController = TextEditingController();
 
@@ -42,7 +42,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
         .collection('alltopics')
         .add({
       'title': titleController.text,
-      'subtitle': subtitleController.text,
+      // 'subtitle': subtitleController.text,
       'description': descriptionController.text,
       'videoLink': videoLinkController.text,
       'pdfLink': imagelink,
