@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
+import 'package:egalee_admin/utlils/utlils.dart';
 import 'package:flutter/material.dart';
 
 class AddBooksCategoryScreen extends StatelessWidget {
@@ -103,7 +104,7 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
       'timestamp': Timestamp.fromDate(DateTime.now()),
       // Add other fields as needed
     }).then((value) {
-      // Document successfully added
+        sendPushNotification(titleController.text, descriptionController.text);
       Navigator.pop(context); // Close the current screen
     }).catchError((error) {
       // Error adding document

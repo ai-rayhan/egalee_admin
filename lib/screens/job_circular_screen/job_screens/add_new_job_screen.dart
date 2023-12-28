@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:egalee_admin/componants/datepicker_dialog.dart';
+import 'package:egalee_admin/utlils/utlils.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../componants/date_fomat.dart';
@@ -248,6 +249,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
           .collection('allposts');
 
       PostRequest.execute(collectionReference, inptudata()).then((_) {
+      sendPushNotification(_titleController.text, _descriptionController.text);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Job Category added to Firestore')),
         );

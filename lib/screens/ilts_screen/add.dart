@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
+import 'package:egalee_admin/utlils/utlils.dart';
 import 'package:flutter/material.dart';
 
 class AddModuleScreen extends StatelessWidget {
@@ -75,7 +76,7 @@ class AddTopicScreen extends StatefulWidget {
 class _AddTopicScreenState extends State<AddTopicScreen> {
   final TextEditingController titleController = TextEditingController();
 
-  final TextEditingController subtitleController = TextEditingController();
+  // final TextEditingController subtitleController = TextEditingController();
 
   final TextEditingController descriptionController = TextEditingController();
 
@@ -90,14 +91,14 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
         .collection('topics')
         .add({
       'title': titleController.text,
-      'subtitle': subtitleController.text,
+      // 'subtitle': subtitleController.text,
       'description': descriptionController.text,
       'videoLink': videoLinkController.text,
       'pdfLink': imagelink,
       'timestamp': Timestamp.fromDate(DateTime.now()),
       // Add other fields as needed
     }).then((value) {
-      // Document successfully added
+        sendPushNotification(titleController.text, descriptionController.text);
       Navigator.pop(context); // Close the current screen
     }).catchError((error) {
       // Error adding document
@@ -149,13 +150,13 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
             const SizedBox(
               height: 10,
             ),
-            TextField(
-              controller: subtitleController,
-              decoration: const InputDecoration(labelText: 'Subtitle'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // TextField(
+            //   controller: subtitleController,
+            //   decoration: const InputDecoration(labelText: 'Subtitle'),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             TextField(
               controller: descriptionController,
               decoration: const InputDecoration(labelText: 'Description'),
