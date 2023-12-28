@@ -14,25 +14,26 @@ class AppStaticData {
   ];
 }
 
-Future<void> sendNotificationToAllUsers() async {
+Future<void> sendPushNotification(title, body) async {
   // Replace 'YOUR_SERVER_KEY' with your Firebase Cloud Messaging server key
-  String serverKey = 'AAAAwYR3dIc:APA91bFeexRteeBGI1o7HPrfvW-4HYADP7MzCZR0KTlWi6OteDno706H0QzN4OBMbky4wZT6ardmICvpSr_Nz5PBoNXdI9Z0EGypcKRBjzD1wX9vBlF66_HowgMDW_WXMcOUf6OqxDhl';
+  String serverKey =
+      'AAAAwYR3dIc:APA91bFeexRteeBGI1o7HPrfvW-4HYADP7MzCZR0KTlWi6OteDno706H0QzN4OBMbky4wZT6ardmICvpSr_Nz5PBoNXdI9Z0EGypcKRBjzD1wX9vBlF66_HowgMDW_WXMcOUf6OqxDhl';
 
   // Notification content
   var notification = {
-    'title': 'Title of Notification',
-    'body': 'Body of Notification',
+    'title': title,
+    'body': body,
   };
 
   var data = {
     'notification': notification,
-    'data': {
-      // Optional data payload
-      'key1': 'value1',
-      'key2': 'value2',
-    },
-     'priority': 'high',
-     'to': '/topics/all-users', 
+    // 'data': {
+    //   // Optional data payload
+    //   'key1': 'value1',
+    //   'key2': 'value2',
+    // },
+    'priority': 'high',
+    'to': '/topics/all-users',
   };
 
   try {

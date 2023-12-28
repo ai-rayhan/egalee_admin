@@ -76,7 +76,7 @@ class AddTopicScreen extends StatefulWidget {
 class _AddTopicScreenState extends State<AddTopicScreen> {
   final TextEditingController titleController = TextEditingController();
 
-  final TextEditingController subtitleController = TextEditingController();
+  // final TextEditingController subtitleController = TextEditingController();
 
   final TextEditingController descriptionController = TextEditingController();
 
@@ -85,26 +85,26 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   final TextEditingController pdfLinkController = TextEditingController();
 
   void _addSubCollectionDocument(BuildContext context) {
-    // FirebaseFirestore.instance
-    //     .collection('skillcareer')
-    //     .doc(widget.documentId)
-    //     .collection('topics')
-    //     .add({
-    //   'title': titleController.text,
-    //   'subtitle': subtitleController.text,
-    //   'description': descriptionController.text,
-    //   'videoLink': videoLinkController.text,
-    //   'pdfLink': imagelink,
-    //   'timestamp': Timestamp.fromDate(DateTime.now()),
-    //   // Add other fields as needed
-    // }).then((value) {
-    //   // Document successfully added
-    //   Navigator.pop(context); // Close the current screen
-    // }).catchError((error) {
-    //   // Error adding document
-    //   // Handle error according to your app's requirements
-    // });
-    sendNotificationToAllUsers();
+    FirebaseFirestore.instance
+        .collection('skillcareer')
+        .doc(widget.documentId)
+        .collection('topics')
+        .add({
+      'title': titleController.text,
+      // 'subtitle': subtitleController.text,
+      'description': descriptionController.text,
+      'videoLink': videoLinkController.text,
+      'pdfLink': imagelink,
+      'timestamp': Timestamp.fromDate(DateTime.now()),
+      // Add other fields as needed
+    }).then((value) {
+      // Document successfully added
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error adding document
+      // Handle error according to your app's requirements
+    });
+    sendPushNotification(titleController.text, descriptionController.text);
   }
 
   File? _file;
@@ -151,13 +151,13 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
             const SizedBox(
               height: 10,
             ),
-            TextField(
-              controller: subtitleController,
-              decoration: const InputDecoration(labelText: 'Subtitle'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // TextField(
+            //   controller: subtitleController,
+            //   decoration: const InputDecoration(labelText: 'Subtitle'),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             TextField(
               controller: descriptionController,
               decoration: const InputDecoration(labelText: 'Description'),

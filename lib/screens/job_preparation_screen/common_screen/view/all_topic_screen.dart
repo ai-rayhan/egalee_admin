@@ -75,7 +75,7 @@ class AllTopicScreen extends StatelessWidget {
                         return Card(
                           child: ListTile(
                             title: Text(subDocument['title']),
-                            subtitle: Text(subDocument['subtitle']),
+                            // subtitle: Text(subDocument['subtitle']),
                             trailing: IconButton(
                                 onPressed: () {
                                   _deleteTopic(
