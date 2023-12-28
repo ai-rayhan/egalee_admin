@@ -88,15 +88,38 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     }
   }
 
-  bool onlyVideo() {
-    if (widget.groupName == 'Video section') {
+  bool nonPdf() {
+    if (widget.groupName == 'DU Admission' ||
+        widget.groupName == 'Video section') {
       return true;
     } else {
       return false;
     }
   }
 
-  bool onlyPdf() {
+  bool nonmcq() {
+    if (widget.groupName == 'Written Preparation' ||
+        widget.groupName == 'Video section' ||
+        widget.groupName == 'PDF section') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // bool nonDescription() {
+  //   if (widget.groupName == 'Medical Admission' ||
+  //       widget.groupName == 'Written Preparation' ||
+  //       widget.groupName == 'DU Admission' ||
+  //       widget.groupName == 'PDF section' ||
+  //       widget.groupName == 'Video section') {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  bool nonvideo() {
     if (widget.groupName == 'PDF section') {
       return true;
     } else {
@@ -122,65 +145,58 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: subtitleController,
-                decoration: const InputDecoration(labelText: 'Subtitle'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextField(
-                maxLines: 5,
-                controller: descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               onlyMCQ()
                   ? Container()
-                  : Column(
-                      children: [
-                        onlyPdf()
-                            ? Container()
-                            : TextField(
-                                controller: videoLinkController,
-                                decoration: const InputDecoration(
-                                    labelText: 'Video Link'),
-                              ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        onlyVideo()
-                            ? Container()
-                            : GestureDetector(
-                                onTap: () async {
-                                  await pickFile(); // Pick file using file_picker
-                                  if (_file != null) {
-                                    await uploadFile();
-                                  }
-                                },
-                                child: TextFormField(
-                                  enabled: false,
-                                  decoration: InputDecoration(
-                                      labelText: imagelink == null
-                                          ? 'Pick a PDF'
-                                          : '$imagelink'),
-                                ),
-                              ),
-                      ],
+                  : TextField(
+                      controller: titleController,
+                      decoration: const InputDecoration(labelText: 'Title'),
                     ),
               const SizedBox(
                 height: 10,
               ),
-              onlyPdf() || onlyVideo()
+
+              // onlyMCQ() || nonDescription()
+              //     ? Container()
+              //     : TextField(
+              //         maxLines: 5,
+              //         controller: descriptionController,
+              //         decoration:
+              //             const InputDecoration(labelText: 'Description'),
+              //       ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              onlyMCQ() || nonvideo()
+                  ? Container()
+                  : TextField(
+                      controller: videoLinkController,
+                      decoration:
+                          const InputDecoration(labelText: 'Video Link'),
+                    ),
+              const SizedBox(
+                height: 10,
+              ),
+              onlyMCQ() || nonPdf()
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () async {
+                        await pickFile(); // Pick file using file_picker
+                        if (_file != null) {
+                          await uploadFile();
+                        }
+                      },
+                      child: TextFormField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            labelText: imagelink == null
+                                ? 'Pick a PDF'
+                                : '$imagelink'),
+                      ),
+                    ),
+              const SizedBox(
+                height: 10,
+              ),
+              nonmcq()
                   ? Container()
                   : GestureDetector(
                       onTap: () async {
