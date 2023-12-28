@@ -25,7 +25,7 @@ class DUAdmissionScreen extends StatelessWidget {
                       Navigator.push<void>(
                         context,
                         MaterialPageRoute<void>(
-                            builder: (BuildContext context) => AllSubjectScreen(groupName: screenName)),
+                            builder: (BuildContext context) => AllSubjectScreen(groupName: modules[index].moduleName)),
                       );
                     },
                     title: Text(modules[index].moduleName)),
@@ -52,6 +52,6 @@ class Module {
 List<Module> modules = [
   const Module(id: '1', moduleName: "Unit-A"),
   const Module(id: '2', moduleName: "Unit-B"),
-  const Module(id: '2', moduleName: "Unit-C"),
-  const Module(id: '2', moduleName: "Unit-D"),
+  const Module(id: '3', moduleName: "Unit-C"),
+  const Module(id: '4', moduleName: "Unit-D"),
 ];

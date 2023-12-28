@@ -146,9 +146,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              onlyMCQ()
-                  ? Container()
-                  : TextField(
+              TextField(
                       controller: titleController,
                       decoration: const InputDecoration(labelText: 'Title'),
                     ),
