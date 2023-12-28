@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../componants/create_quiz.dart';
+import '../../../componants/explanation_quiz_create.dart';
 
 class AddExamScreen extends StatefulWidget {
   final String groupName;
@@ -125,7 +125,8 @@ class _AddExamScreenState extends State<AddExamScreen> {
                 onTap: () async {
                   final result = await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => QuizInputPage()),
+                    MaterialPageRoute(
+                        builder: (context) => QuizInputPagewithExplanation()),
                   );
 
                   if (result != null) {
@@ -168,11 +169,9 @@ class _AddExamScreenState extends State<AddExamScreen> {
   }
 }
 
-
 class UpdateExamScreen extends StatefulWidget {
   final String groupName;
   final String documentId;
-
 
   const UpdateExamScreen({
     Key? key,
@@ -209,10 +208,14 @@ class _UpdateExamScreenState extends State<UpdateExamScreen> {
 
     if (documentSnapshot.exists) {
       setState(() {
-        titleController = TextEditingController(text: documentSnapshot['title']);
-        subtitleController = TextEditingController(text: documentSnapshot['subtitle']);
-        descriptionController = TextEditingController(text: documentSnapshot['description']);
-        durationController = TextEditingController(text: documentSnapshot['duration']);
+        titleController =
+            TextEditingController(text: documentSnapshot['title']);
+        subtitleController =
+            TextEditingController(text: documentSnapshot['subtitle']);
+        descriptionController =
+            TextEditingController(text: documentSnapshot['description']);
+        durationController =
+            TextEditingController(text: documentSnapshot['duration']);
         _isLocked = documentSnapshot['islocked'];
         _isResultPublished = documentSnapshot['isresultPublished'];
         quizFileLink = documentSnapshot['quizLink'];

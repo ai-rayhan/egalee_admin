@@ -5,8 +5,6 @@ import 'package:egalee_admin/componants/dialogs/custom_alert.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-
-
 class QuizInputPage extends StatefulWidget {
   @override
   _QuizInputPageState createState() => _QuizInputPageState();
@@ -187,35 +185,37 @@ class _QuizInputPageState extends State<QuizInputPage> {
     return jsonEncode(questions);
   }
 
-void saveQuestionsToFirebaseStorage(BuildContext context) async {
-  String jsonData = convertQuestionsToJson();
-  Uint8List data = Uint8List.fromList(utf8.encode(jsonData)); // Convert to Uint8List
+  void saveQuestionsToFirebaseStorage(BuildContext context) async {
+    String jsonData = convertQuestionsToJson();
+    Uint8List data =
+        Uint8List.fromList(utf8.encode(jsonData)); // Convert to Uint8List
 
-  Reference ref = FirebaseStorage.instance.ref().child('quiz_question3gh.json');
-  UploadTask uploadTask = ref.putData(
-    data,
-    SettableMetadata(contentType: 'application/json'),
-  );
+    Reference ref =
+        FirebaseStorage.instance.ref().child('quiz_question3gh.json');
+    UploadTask uploadTask = ref.putData(
+      data,
+      SettableMetadata(contentType: 'application/json'),
+    );
 
-  try {
-    TaskSnapshot snapshot = await uploadTask;
-    if (snapshot.state == TaskState.success) {
-      // If upload is successful, get the download URL
-      String downloadURL = await snapshot.ref.getDownloadURL();
+    try {
+      TaskSnapshot snapshot = await uploadTask;
+      if (snapshot.state == TaskState.success) {
+        // If upload is successful, get the download URL
+        String downloadURL = await snapshot.ref.getDownloadURL();
 
-      // Print the download URL
-      print('Download URL: $downloadURL');
+        // Print the download URL
+        print('Download URL: $downloadURL');
 
-      // Perform action to pop the screen, for example, using Navigator.pop
-      Navigator.pop(context,downloadURL); // This pops the current screen
+        // Perform action to pop the screen, for example, using Navigator.pop
+        Navigator.pop(context, downloadURL); // This pops the current screen
 
-      // You can navigate to a new screen or perform any other action as needed here
-      // For navigating to a new screen, you might use:
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => NextScreen()));
+        // You can navigate to a new screen or perform any other action as needed here
+        // For navigating to a new screen, you might use:
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => NextScreen()));
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+      // Handle errors here
     }
-  } catch (e) {
-    print('Error uploading file: $e');
-    // Handle errors here
   }
-}
 }

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../componants/create_quiz.dart';
+import '../../../../componants/explanation_quiz_create.dart';
 
 class AddTopicScreen extends StatefulWidget {
   final String groupName;
@@ -83,7 +83,8 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     if (widget.groupName == 'Job Solution' ||
         widget.groupName == 'BCS Preparation' ||
         widget.groupName == 'NTRCA & Primary Preparation' ||
-        widget.groupName == 'Bank Job Preparation'|| widget.groupName == 'Recent Job Solution') {
+        widget.groupName == 'Bank Job Preparation' ||
+        widget.groupName == 'Recent Job Solution') {
       return true;
     } else {
       return false;
@@ -108,15 +109,20 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   }
 
   bool nonMCQ() {
-    if (widget.groupName == 'PDF section'|| widget.groupName == 'Viva Preparation'||widget.groupName=='Free course'||widget.groupName == 'Written Preparation' ||
+    if (widget.groupName == 'PDF section' ||
+        widget.groupName == 'Viva Preparation' ||
+        widget.groupName == 'Free course' ||
+        widget.groupName == 'Written Preparation' ||
         widget.groupName == 'Video section') {
       return true;
     } else {
       return false;
     }
   }
+
   bool nonDescription() {
-    if (widget.groupName == 'PDF section'||widget.groupName == 'Written Preparation' ||
+    if (widget.groupName == 'PDF section' ||
+        widget.groupName == 'Written Preparation' ||
         widget.groupName == 'Video section') {
       return true;
     } else {
@@ -142,12 +148,12 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                checkOnlyMCQ()
+              checkOnlyMCQ()
                   ? Container()
                   : TextField(
-                controller: titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
-              ),
+                      controller: titleController,
+                      decoration: const InputDecoration(labelText: 'Title'),
+                    ),
               const SizedBox(
                 height: 10,
               ),
@@ -160,13 +166,14 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               // const SizedBox(
               //   height: 10,
               // ),
-                checkOnlyMCQ()||nonDescription()
+              checkOnlyMCQ() || nonDescription()
                   ? Container()
                   : TextField(
-                maxLines: 5,
-                controller: descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
-              ),
+                      maxLines: 5,
+                      controller: descriptionController,
+                      decoration:
+                          const InputDecoration(labelText: 'Description'),
+                    ),
               checkOnlyMCQ()
                   ? Container()
                   : Column(
@@ -184,7 +191,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                         nonpdf()
+                        nonpdf()
                             ? Container()
                             : GestureDetector(
                                 onTap: () async {
@@ -206,14 +213,15 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               const SizedBox(
                 height: 10,
               ),
-               nonMCQ()
+              nonMCQ()
                   ? Container()
                   : GestureDetector(
                       onTap: () async {
                         final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => QuizInputPage()),
+                              builder: (context) =>
+                                  QuizInputPagewithExplanation()),
                         );
 
                         if (result != null) {

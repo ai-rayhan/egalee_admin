@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../componants/create_quiz.dart';
+import '../../../componants/explanation_quiz_create.dart';
 
 class AddExamScreen extends StatefulWidget {
   final String groupName;
@@ -125,7 +125,8 @@ class _AddExamScreenState extends State<AddExamScreen> {
                 onTap: () async {
                   final result = await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => QuizInputPage()),
+                    MaterialPageRoute(
+                        builder: (context) => QuizInputPagewithExplanation()),
                   );
 
                   if (result != null) {
@@ -145,7 +146,6 @@ class _AddExamScreenState extends State<AddExamScreen> {
               const SizedBox(
                 height: 20,
               ),
-      
 
               // Add more TextFields for additional fields if needed
             ],
