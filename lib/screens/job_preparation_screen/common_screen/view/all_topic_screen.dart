@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egalee_admin/data/firebase_caller/storage/delete.dart';
+import 'package:egalee_admin/models/topic.dart';
 import 'package:egalee_admin/screens/job_preparation_screen/common_screen/add/add_topic_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -79,12 +81,26 @@ class AllTopicScreen extends StatelessWidget {
                             trailing: IconButton(
                                 onPressed: () {
                                   _deleteTopic(
-                                    subDocumentId,
+                                    subDocumentId,subDocument,
                                     context,
                                   );
                                 },
                                 icon: const Icon(Icons.delete)),
-                            onTap: () {},
+                            onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddTopicScreen(
+                                        topic: Topic(
+                                          id: subDocumentId,
+                                          title:subDocument['title'],description: subDocument['description'] ,videoLink: subDocument['videoLink'],pdfLink:  subDocument['pdfLink'],mcqlink: subDocument['quizLink']),
+                                        groupName: groupName,
+                                        subjectId: subjectId,
+                                        subjectName: subjectName,
+                                      ),
+                                    ),
+                                  );
+                            },
                           ),
                         );
                       },
@@ -97,11 +113,12 @@ class AllTopicScreen extends StatelessWidget {
         ));
   }
 
-  Future<void> _deleteTopic(id, BuildContext context) async {
+  Future<void> _deleteTopic(id,QueryDocumentSnapshot<Object?>subDocument, BuildContext context) async {
     // Show a loading indicator while deleting
     showLoadingDialog(context);
 
     try {
+      await FiledeleteUtils.deleteImageFromFirebaseStorage(subDocument['pdfLink']);
       await FirebaseFirestore.instance
           .collection('jobprep')
           .doc(groupName)
@@ -110,7 +127,7 @@ class AllTopicScreen extends StatelessWidget {
           .collection('alltopics')
           .doc(id)
           .delete();
-
+      
       // If deletion is successful, show a success Snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

@@ -1,4 +1,5 @@
 import 'package:egalee_admin/data/firebase_caller/storage/delete.dart';
+import 'package:egalee_admin/models/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -43,7 +44,7 @@ class ModuleScreen extends StatelessWidget {
                           ),
                         );
                       },
-                      icon: Icon(Icons.edit)),
+                      icon: const Icon(Icons.edit)),
                 )),
             separatorBuilder: (context, index) => const Divider(),
             itemCount: modules.length));
@@ -124,6 +125,18 @@ class TopicListScreen extends StatelessWidget {
                                     subDocument['videoLink'] ?? '');
                               },
                               icon: const Icon(Icons.delete)),
+                          onTap: () {
+                               Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddTopicScreen(
+                                        topic: Topic(
+                                          id: subDocumentId,
+                                          title:subDocument['title'],description: subDocument['description'] ,videoLink: subDocument['videoLink'],pdfLink:  subDocument['pdfLink'],), documentId: documentId,
+                                      ),
+                                    ),
+                                  );
+                          },
                         ),
                       );
                     },
@@ -308,6 +321,7 @@ class _UpdatePriceScreenState extends State<UpdatePriceScreen> {
               controller: regularFeeController,
               decoration: const InputDecoration(labelText: 'Regular fee'),
             ),
+            const SizedBox(height: 10,),
             TextField(
               controller: offerFeeController,
               decoration: const InputDecoration(labelText: 'Offer fee'),

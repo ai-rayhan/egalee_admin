@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:egalee_admin/data/firebase_caller/storage/delete.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -114,6 +115,7 @@ class SliderScreenState extends State<SliderScreen> {
       isloading = true; // Set to false when there's an error
     });
     try {
+      await FiledeleteUtils.deleteImageFromFirebaseStorage(imageUrl);
       // Remove the image URL from the Firestore 'items' array
       await _adminCollection.doc('slider').update({
         'items': FieldValue.arrayRemove([imageUrl]),

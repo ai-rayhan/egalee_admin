@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egalee_admin/data/firebase_caller/storage/delete.dart';
+import 'package:egalee_admin/models/subject.dart';
 import 'package:egalee_admin/screens/job_preparation_screen/common_screen/add/add_subject.dart';
 import 'package:egalee_admin/screens/job_preparation_screen/common_screen/view/all_topic_screen.dart';
 import 'package:flutter/material.dart';
@@ -65,16 +67,31 @@ class AllSubjectScreen extends StatelessWidget {
                           child: ListTile(
                             title: Text(subDocument['title']),
                             // subtitle: Text(subDocument['subtitle']),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  _deleteTopic(
-                                    subDocumentId,
-                                    context,
-                                  );
-                                },
-                                icon: const Icon(Icons.delete)),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                         Navigator.push(
+                                         context,
+                                         MaterialPageRoute(
+                                           builder: (context) =>
+                                               AddSubjectScreen(groupName: groupName,subject: Subject(id: subDocumentId, title:subDocument['title'] ,offerfee:subDocument['offerfee'],fee: subDocument['fee'], pdflink: (subDocument.data() as Map<String, dynamic>).containsKey('pdflink') ? subDocument['pdflink'] : null,),),
+                                         ),
+                                       );
+                                    },
+                                    icon: const Icon(Icons.edit)),
+
+                                   groupName== "PDF section"? IconButton(onPressed: (){
+                                      _deleteTopic(subDocumentId,subDocument, context);
+                                    }, icon:Icon(Icons.delete)):Container()
+                              ],
+                            ),
 
                             onTap: () {
+                              if(groupName== "PDF section"){
+                                return;
+                              }
                               Navigator.push<void>(
                                 context,
                                 MaterialPageRoute<void>(
@@ -96,19 +113,19 @@ class AllSubjectScreen extends StatelessWidget {
           },
         ));
   }
-
-  Future<void> _deleteTopic(id, BuildContext context) async {
+Future<void> _deleteTopic(id,QueryDocumentSnapshot<Object?>subDocument, BuildContext context) async {
     // Show a loading indicator while deleting
     showLoadingDialog(context);
 
     try {
+      await FiledeleteUtils.deleteImageFromFirebaseStorage((subDocument.data() as Map<String, dynamic>).containsKey('pdflink') ? subDocument['pdflink'] : null,);
       await FirebaseFirestore.instance
           .collection('jobprep')
           .doc(groupName)
           .collection('allSubject')
           .doc(id)
           .delete();
-
+      
       // If deletion is successful, show a success Snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -130,3 +147,4 @@ class AllSubjectScreen extends StatelessWidget {
     }
   }
 }
+ 

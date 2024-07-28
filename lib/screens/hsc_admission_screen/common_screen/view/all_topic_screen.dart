@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egalee_admin/models/topic.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../componants/dialogs/deleting_dialog.dart';
@@ -83,7 +84,21 @@ class AllTopicScreen extends StatelessWidget {
                                   );
                                 },
                                 icon: const Icon(Icons.delete)),
-                            onTap: () {},
+                            onTap: () {
+                               Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddTopicScreen(
+                                        topic: Topic(
+                                          id: subDocumentId,
+                                          title:subDocument['title'],description: subDocument['description'] ,videoLink: subDocument['videoLink'],pdfLink:  subDocument['pdfLink'],mcqlink: subDocument['quizLink']),
+                                        groupName: groupName,
+                                        subjectId: subjectId,
+                                        subjectName: subjectName,
+                                      ),
+                                    ),
+                                  );
+                            },
                           ),
                         );
                       },

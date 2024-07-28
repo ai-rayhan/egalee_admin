@@ -1,3 +1,4 @@
+import 'package:egalee_admin/models/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -121,6 +122,19 @@ class TopicListScreen extends StatelessWidget {
                                _deleteTopic(subDocumentId, context,subDocument['pdfLink']??'',subDocument['videoLink']??'');
                               },
                               icon: const Icon(Icons.delete)),
+                              onTap: (){
+                                   Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddTopicScreen(
+                                        topic: Topic(
+                                          id: subDocumentId,
+                                          title:subDocument['title'],description: subDocument['description'] ,videoLink: subDocument['videoLink'],pdfLink:  subDocument['pdfLink']), documentId: documentId,
+                                       
+                                      ),
+                                    ),
+                                  );
+                              },
                         ),
                       );
                     },

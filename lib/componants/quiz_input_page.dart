@@ -114,7 +114,7 @@ class _QuizInputPageState extends State<QuizInputPage> {
                 TextField(
                   controller: option4Controller,
                   decoration: InputDecoration(
-                    labelText: 'Enter  option 3',
+                    labelText: 'Enter  option 4',
                   ),
                 ),
                 SizedBox(height: 12.0),

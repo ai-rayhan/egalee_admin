@@ -10,9 +10,11 @@ import '/data/firebase_caller/firestore/firestore_caller.dart';
 
 class AddNewJobScreen extends StatefulWidget {
   const AddNewJobScreen(
-      {super.key, required this.category, required this.subcategory});
+      {super.key, required this.category, required this.subcategory,this.jobId, this.documentData});
   final String category;
   final String subcategory;
+  final String? jobId;
+  final dynamic documentData;
 
   @override
   _AddNewJobScreenState createState() => _AddNewJobScreenState();
@@ -44,6 +46,16 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
 
   @override
   void initState() {
+     _titleController.text=widget.documentData?['title']??'';
+    _subtitleController.text=widget.documentData?['subtitle']??'';
+    _applinkController.text=widget.documentData?['apply_link']??'';
+    _descriptionController.text=widget.documentData?['description']??'';
+    _locationController.text=widget.documentData?['location']??'';
+    _sourceController.text=widget.documentData?['source']??'';
+    publishDate=DateTime.tryParse(widget.documentData?['publishDate']??'');
+    deadlineDate=DateTime.tryParse(widget.documentData?['deadlineDate']??'');
+    imagelink=widget.documentData?['image']??"";
+    _islocked=widget.documentData?['islocked']??false;
     super.initState();
   }
 
@@ -212,8 +224,8 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: _addNewJob,
-                  child: const Text('Add New Job'),
+                  onPressed:()=>widget.jobId==null? _addNewJob():_updateSubCollectionDocument(context),
+                  child: const Text('Save'),
                 ),
               ],
             ),
@@ -255,6 +267,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
         );
         // Clear text fields after adding data
         clearControllerData();
+       Navigator.pop(context); 
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to add Job Category: $error')),
@@ -262,7 +275,22 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
       });
     }
   }
-
+  void _updateSubCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance
+          .collection('job_circular')
+          .doc(widget.category.replaceAll(' ', ''))
+          .collection('subcategory')
+          .doc(widget.subcategory.replaceAll(' ', ''))
+          .collection('allposts')
+         .doc(widget.jobId).update( inptudata()).then((value) {
+      // Document successfully added
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error adding document
+      // Handle error according to your app's requirements
+    });
+    
+  }
   clearControllerData() {
     _applinkController.clear();
     _titleController.clear();

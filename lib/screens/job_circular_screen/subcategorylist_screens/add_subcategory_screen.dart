@@ -7,8 +7,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '/data/firebase_caller/firestore/firestore_caller.dart';
 
 class AddJobCategoryScreen extends StatefulWidget {
-  const AddJobCategoryScreen({super.key, required this.category});
+  const AddJobCategoryScreen({super.key, required this.category, this.title, this.imageLink, this.id});
   final String category;
+  final String? title;
+  final String? imageLink;
+  final String? id;
 
   @override
   _AddJobCategoryScreenState createState() => _AddJobCategoryScreenState();
@@ -17,17 +20,19 @@ class AddJobCategoryScreen extends StatefulWidget {
 class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _subtitleController = TextEditingController();
+  // final TextEditingController _subtitleController = TextEditingController();
 
   @override
   void dispose() {
     _titleController.dispose();
-    _subtitleController.dispose();
+    // _subtitleController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
+    _titleController.text=widget.title??'';
+    imagelink=widget.imageLink??"pick a image";
     super.initState();
   }
 
@@ -68,7 +73,6 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
       print("No file selected");
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,16 +97,16 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
                 },
               ),
                   const SizedBox(height: 10,),
-              TextFormField(
-                controller: _subtitleController,
-                decoration: const InputDecoration(labelText: 'Subtitle'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter Subtitle';
-                  }
-                  return null;
-                },
-              ),    const SizedBox(height: 10,),
+              // TextFormField(
+              //   controller: _subtitleController,
+              //   decoration: const InputDecoration(labelText: 'Subtitle'),
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return 'Please enter Subtitle';
+              //     }
+              //     return null;
+              //   },
+              // ),    const SizedBox(height: 10,),
                 GestureDetector(
                   onTap: () async {
                     await pickFile(); // Pick file using file_picker
@@ -112,13 +116,13 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
                   },
                   child: TextFormField(
                     enabled: false,
-                    decoration: const InputDecoration(labelText: 'Image URL'),
+                    decoration:  InputDecoration(labelText: imagelink),
                   ),
                 ),
               const SizedBox(height: 20.0),
               ElevatedButton(
-                onPressed: _addJobCategoryToFirestore,
-                child: const Text('Add Job Category'),
+                onPressed:()=> widget.id==null? _addJobCategoryToFirestore():_updateSubCollectionDocument(context),
+                child: const Text('Save'),
               ),
             ],
           ),
@@ -135,7 +139,7 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
           .collection('subcategory');
       var data = {
         'title': _titleController.text,
-        'subtitle': _subtitleController.text,
+        // 'subtitle': _subtitleController.text,
         'image': imagelink
       };
       PostRequest.execute(collectionReference, data).then((_) {
@@ -145,12 +149,29 @@ class _AddJobCategoryScreenState extends State<AddJobCategoryScreen> {
         // Clear text fields after adding data
 
         _titleController.clear();
-        _subtitleController.clear();
+        // _subtitleController.clear();
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to add Job Category: $error')),
         );
       });
     }
+  }
+   void _updateSubCollectionDocument(BuildContext context) {
+   FirebaseFirestore.instance
+          .collection('job_circular')
+          .doc(widget.category.replaceAll(' ', ''))
+          .collection('subcategory')
+        .doc(widget.id).update({
+      'title': _titleController.text,
+      'image': imagelink,
+      
+      // Add other fields as needed
+    }).then((value) {
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error adding document
+      // Handle error according to your app's requirements
+    });
   }
 }

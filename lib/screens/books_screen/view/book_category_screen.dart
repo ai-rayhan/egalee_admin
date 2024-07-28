@@ -20,7 +20,7 @@ class BooksCategoriesScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddBooksCategoryScreen(),
+                  builder: (context) => AddBooksCategoryScreen(title: '',),
                 ),
               );
             },
@@ -61,9 +61,14 @@ class BooksCategoriesScreen extends StatelessWidget {
                       title: Text(document['title']),
                       trailing: IconButton(
                           onPressed: () {
-                            deleteBookCategory(document.id, context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddBooksCategoryScreen(title:document['title'] ,),
+                            ),
+                          );
                           },
-                          icon: Icon(Icons.delete)),
+                          icon: Icon(Icons.edit)),
                     ));
               },
               separatorBuilder: (context, index) => Divider(),

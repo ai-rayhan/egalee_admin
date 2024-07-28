@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egalee_admin/models/subject.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../componants/dialogs/deleting_dialog.dart';
@@ -67,12 +68,15 @@ class AllSubjectScreen extends StatelessWidget {
                             // subtitle: Text(subDocument['subtitle']),
                             trailing: IconButton(
                                 onPressed: () {
-                                  _deleteTopic(
-                                    subDocumentId,
-                                    context,
-                                  );
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                              AddSubjectScreen(groupName: groupName,subject: Subject(id: subDocumentId, title:subDocument['title'] ,offerfee:subDocument['offerfee'],fee: subDocument['fee']),),
+                                      ),
+                                    );
                                 },
-                                icon: const Icon(Icons.delete)),
+                                icon: const Icon(Icons.edit)),
 
                             onTap: () {
                               Navigator.push<void>(

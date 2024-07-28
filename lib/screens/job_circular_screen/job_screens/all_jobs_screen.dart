@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../data/firebase_caller/storage/delete.dart';
 import 'add_new_job_screen.dart';
-import 'job_details_screen.dart';
 
 class AllJobScreen extends StatefulWidget {
   const AllJobScreen(
@@ -95,14 +94,27 @@ class _AllJobScreenState extends State<AllJobScreen> {
                       title: Text(documentData['title']),
                       subtitle: Text(documentData['subtitle']),
                       onTap: () {
-                        Navigator.push<void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => JobDetailsScreen(
-                              jobdata: documentData,
-                            ),
-                          ),
-                        );
+                           Navigator.push<void>(
+                           context,
+                           MaterialPageRoute<void>(
+                             builder: (BuildContext context) => AddNewJobScreen(
+                               category: widget.category,
+                               subcategory: widget.subcategoryId,
+                               jobId:jobId,
+                               documentData:documentData
+
+
+                             ),
+                           ),
+                         );
+                        // Navigator.push<void>(
+                        //   context,
+                        //   MaterialPageRoute<void>(
+                        //     builder: (BuildContext context) => JobDetailsScreen(
+                        //       jobdata: documentData,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       leading: CircleAvatar(radius: 15,child: Text((index+1).toString()),),
                       trailing: GestureDetector(

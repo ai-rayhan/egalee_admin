@@ -1,14 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egalee_admin/models/subject.dart';
 import 'package:flutter/material.dart';
 
-class AddSubjectScreen extends StatelessWidget {
-  AddSubjectScreen({super.key, required this.groupName});
+class AddSubjectScreen extends StatefulWidget {
+  AddSubjectScreen({super.key, required this.groupName, this.subject});
   final String groupName;
+  final Subject? subject;
+
+  @override
+  State<AddSubjectScreen> createState() => _AddSubjectScreenState();
+}
+
+class _AddSubjectScreenState extends State<AddSubjectScreen> {
   final TextEditingController titleController = TextEditingController();
+
   final TextEditingController feeController = TextEditingController();
+
   final TextEditingController offerFeeController = TextEditingController();
+
   void _addCollectionDocument(BuildContext context) {
-    FirebaseFirestore.instance.collection('hscadmission').doc(groupName).collection('allSubject').add({
+    FirebaseFirestore.instance.collection('hscadmission').doc(widget.groupName).collection('allSubject').add({
+      'title': titleController.text,
+      'fee': feeController.text,
+      'offerfee': offerFeeController.text,
+    }).then((value) {
+      // Document successfully added
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error adding document
+      // Handle error according to your app's requirements
+    });
+  }
+  void _updeteCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance.collection('hscadmission').doc(widget.groupName).collection('allSubject').doc(widget.subject?.id).update({
       'title': titleController.text,
       'fee': feeController.text,
       'offerfee': offerFeeController.text,
@@ -21,15 +45,23 @@ class AddSubjectScreen extends StatelessWidget {
     });
   }
 
+@override
+  void initState() {
+    titleController.text=widget.subject?.title??'';
+    feeController.text=widget.subject?.fee??'';
+    offerFeeController.text=widget.subject?.offerfee??'';
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add A Subject in $groupName'),
+        title: Text('Add A Subject in ${widget.groupName}'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: () => _addCollectionDocument(context),
+            onPressed: () =>widget.subject==null? _addCollectionDocument(context):_updeteCollectionDocument(context),
           ),
         ],
       ),

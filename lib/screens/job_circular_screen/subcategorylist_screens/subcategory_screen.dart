@@ -85,7 +85,6 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
                     // Display the data in whatever way you want, for example:
                     return ListTile(
                       title: Text(documentData['title']),
-                      subtitle: Text(documentData['subtitle']),
                       onTap: () {
                         Navigator.push<void>(
                           context,
@@ -99,10 +98,17 @@ class _SubCategoryListScreenState extends State<SubCategoryListScreen> {
                       },
                       leading: Image.network(documentData['image'] ?? ''),
                       trailing: GestureDetector(
-                          onLongPress: () {
-                            delesubcategory(subcategoryId,documentData['image'] ?? '');
+                          onTap: () {
+                                 Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        AddJobCategoryScreen(category: widget.category,id:subcategoryId, title: documentData['title'],imageLink: documentData['image'],),
+                  ),
+                );
+                           
                           },
-                          child: const Icon(Icons.delete)),
+                          child: const Icon(Icons.edit)),
                     );
                   },
                 ),

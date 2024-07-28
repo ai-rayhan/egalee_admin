@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
+import 'package:egalee_admin/models/topic.dart';
 import 'package:egalee_admin/utlils/utlils.dart';
 import 'package:flutter/material.dart';
 
@@ -11,12 +12,13 @@ class AddTopicScreen extends StatefulWidget {
   final String groupName;
   final String subjectId;
   final String subjectName;
+  final Topic? topic;
 
   const AddTopicScreen(
       {Key? key,
       required this.groupName,
       required this.subjectId,
-      required this.subjectName})
+      required this.subjectName,  this.topic,})
       : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
 
   final TextEditingController videoLinkController = TextEditingController();
 
-  final TextEditingController pdfLinkController = TextEditingController();
+  
 
   void _addSubCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance
@@ -42,6 +44,30 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
         .doc(widget.subjectId)
         .collection('alltopics')
         .add({
+      'title': titleController.text,
+      // 'subtitle': subtitleController.text,
+      'description': descriptionController.text,
+      'videoLink': videoLinkController.text,
+      'pdfLink': imagelink,
+      'timestamp': Timestamp.fromDate(DateTime.now()),
+      'quizLink': quizfileLink,
+      // Add other fields as needed
+    }).then((value) {
+       sendPushNotification(titleController.text, descriptionController.text);
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error adding document
+      // Handle error according to your app's requirements
+    });
+  }
+  void _updateSubCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance
+        .collection('jobprep')
+        .doc(widget.groupName)
+        .collection('allSubject')
+        .doc(widget.subjectId)
+        .collection('alltopics')
+        .doc(widget.topic?.id).update({
       'title': titleController.text,
       // 'subtitle': subtitleController.text,
       'description': descriptionController.text,
@@ -101,13 +127,13 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   //   }
   // }
 
-  bool nonpdf() {
-    if (widget.groupName == 'Viva Preparation') {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // bool nonpdf() {
+  //   if (widget.groupName == 'Viva Preparation') {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   bool nonMCQ() {
     if (widget.groupName == 'PDF section' ||
@@ -130,7 +156,15 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
       return false;
     }
   }
-
+@override
+  void initState() {
+    titleController.text=widget.topic?.title??'';
+    descriptionController.text=widget.topic?.description??'';
+    videoLinkController.text=widget.topic?.videoLink??'';
+    imagelink=widget.topic?.pdfLink??'Pick a file';
+    quizfileLink=widget.topic?.mcqlink??'Add MCQ';
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +173,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: () => _addSubCollectionDocument(context),
+            onPressed: () =>widget.topic==null? _addSubCollectionDocument(context):_updateSubCollectionDocument(context),
           ),
         ],
       ),
@@ -190,9 +224,10 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        nonpdf()
-                            ? Container()
-                            : GestureDetector(
+                        // nonpdf()
+                        //     ? Container()
+                        //     :
+                             GestureDetector(
                                 onTap: () async {
                                   await pickFile(); // Pick file using file_picker
                                   if (_file != null) {

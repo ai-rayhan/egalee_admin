@@ -68,16 +68,12 @@ class LiveExamSubjectScreen extends StatelessWidget {
                                 context, subDocumentId, subDocument),
 
                             onTap: () {
-                              // Navigator.push<void>(
-                              //   context,
-                              //   MaterialPageRoute<void>(
-                              //       builder: (BuildContext context) =>
-                              //           AllE(
-                              //             groupName: groupName,
-                              //             subjectId: subDocumentId,
-                              //             subjectName: subDocument['title']??'',
-                              //           )),
-                              // );
+                               Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddExamScreen(groupName: groupName,document: subDocument,docId:subDocumentId),
+                                ),
+                              );
                             },
                           ),
                         );
@@ -161,7 +157,7 @@ void updateresult(
       .doc(documentId)
       .update({
     'title': documentData['title'],
-    'subtitle': documentData['subtitle'],
+    // 'subtitle': documentData['subtitle'],
     'description': documentData['description'],
     'duration': documentData['duration'],
     'islocked': documentData['islocked'],

@@ -1,8 +1,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/componants/dialogs/deleting_dialog.dart';
+import 'package:egalee_admin/models/book.dart';
 import 'package:egalee_admin/screens/books_screen/add.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BookListScreen extends StatelessWidget {
   final String categorydocId;
@@ -72,15 +74,29 @@ class BookListScreen extends StatelessWidget {
                         child: ListTile(
                           title: Text(subDocument['title']),
                           subtitle: Text(subDocument['subtitle']),
-                          trailing: IconButton(
-                              onPressed: () {
+                          trailing: GestureDetector(
+                              onTap: () {
                                 _deleteBook(
                                     subDocumentId,
                                     context,
                                     subDocument['pdfLink'] ?? '',
                                     subDocument['videoLink'] ?? '');
                               },
-                              icon: const Icon(Icons.delete)),
+                              child: const Icon(Icons.delete,size: 25,)),
+                                 onTap: () {
+                                    Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => AddBooksScreen(
+                                                    documentId: categorydocId,
+                                                    suggetionCollectionName: suggetionName,
+                                                    book: Book(
+                                                      id: subDocumentId,
+                                                      title: subDocument['title'],pdflink: subDocument['description'],imagelink: subDocument['pdfLink'],price: subDocument['videoLink'],writerName: subDocument['subtitle']),
+                                                  ),
+                                                ),
+                                              );
+                                    },
                         ),
                       );
                     },

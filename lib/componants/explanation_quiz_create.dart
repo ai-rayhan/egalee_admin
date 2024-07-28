@@ -82,68 +82,71 @@ class _QuizInputPagewithExplanationState
         return AlertDialog(
           title: Text('Add Question'),
           content: SingleChildScrollView(
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                TextField(
-                  controller: questionController,
-                  decoration: InputDecoration(
-                    labelText: 'Enter the question',
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width/.1,
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  TextField(
+                    controller: questionController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter the question',
+                    ),
                   ),
-                ),
-                SizedBox(height: 12.0),
-                TextField(
-                  controller: option1Controller,
-                  decoration: InputDecoration(
-                    labelText: 'Enter  option 1',
+                  SizedBox(height: 12.0),
+                  TextField(
+                    controller: option1Controller,
+                    decoration: InputDecoration(
+                      labelText: 'Enter  option 1',
+                    ),
                   ),
-                ),
-                SizedBox(height: 12.0),
-                TextField(
-                  controller: option2Controller,
-                  decoration: InputDecoration(
-                    labelText: 'Enter  option 2',
+                  SizedBox(height: 12.0),
+                  TextField(
+                    controller: option2Controller,
+                    decoration: InputDecoration(
+                      labelText: 'Enter  option 2',
+                    ),
                   ),
-                ),
-                SizedBox(height: 12.0),
-                TextField(
-                  controller: option3Controller,
-                  decoration: InputDecoration(
-                    labelText: 'Enter  option 3',
+                  SizedBox(height: 12.0),
+                  TextField(
+                    controller: option3Controller,
+                    decoration: InputDecoration(
+                      labelText: 'Enter  option 3',
+                    ),
                   ),
-                ),
-                SizedBox(height: 12.0),
-                TextField(
-                  controller: option4Controller,
-                  decoration: InputDecoration(
-                    labelText: 'Enter  option 3',
+                  SizedBox(height: 12.0),
+                  TextField(
+                    controller: option4Controller,
+                    decoration: InputDecoration(
+                      labelText: 'Enter  option 4',
+                    ),
                   ),
-                ),
-                SizedBox(height: 12.0),
-                TextField(
-                  controller: correctOptionController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Enter correct option number',
+                  SizedBox(height: 12.0),
+                  TextField(
+                    controller: correctOptionController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Enter correct option number',
+                    ),
                   ),
-                ),
-                SizedBox(height: 20.0),
-                TextField(
-                  controller: explanationController,
-                  decoration: InputDecoration(
-                    labelText: 'Explanation',
+                  SizedBox(height: 20.0),
+                  TextField(
+                    controller: explanationController,
+                    decoration: InputDecoration(
+                      labelText: 'Explanation',
+                    ),
                   ),
-                ),
-                SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: () {
-                    saveQuestion(correctOptionController.text);
-                    Navigator.pop(context); // Close the dialog after saving
-                  },
-                  child: Text('Add Question'),
-                ),
-              ],
+                  SizedBox(height: 20.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      saveQuestion(correctOptionController.text);
+                      Navigator.pop(context); // Close the dialog after saving
+                    },
+                    child: Text('Add Question'),
+                  ),
+                ],
+              ),
             ),
           ),
         );
