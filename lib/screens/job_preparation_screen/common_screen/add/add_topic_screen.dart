@@ -33,6 +33,8 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   final TextEditingController descriptionController = TextEditingController();
 
   final TextEditingController videoLinkController = TextEditingController();
+  final TextEditingController durationController = TextEditingController();
+
 
   
 
@@ -51,6 +53,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
       'pdfLink': imagelink,
       'timestamp': Timestamp.fromDate(DateTime.now()),
       'quizLink': quizfileLink,
+      'duration':durationController.text
       // Add other fields as needed
     }).then((value) {
        sendPushNotification(titleController.text, descriptionController.text);
@@ -75,6 +78,8 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
       'pdfLink': imagelink,
       'timestamp': Timestamp.fromDate(DateTime.now()),
       'quizLink': quizfileLink,
+      'duration':durationController.text
+
       // Add other fields as needed
     }).then((value) {
        sendPushNotification(titleController.text, descriptionController.text);
@@ -161,6 +166,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     titleController.text=widget.topic?.title??'';
     descriptionController.text=widget.topic?.description??'';
     videoLinkController.text=widget.topic?.videoLink??'';
+    durationController.text=widget.topic?.duration??'';
     imagelink=widget.topic?.pdfLink??'Pick a file';
     quizfileLink=widget.topic?.mcqlink??'Add MCQ';
     super.initState();
@@ -249,30 +255,42 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
               ),
               nonMCQ()
                   ? Container()
-                  : GestureDetector(
-                      onTap: () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  QuizInputPagewithExplanation()),
-                        );
-
-                        if (result != null) {
-                          setState(() {
-                            quizfileLink = result;
-                          });
-                          debugPrint('Received data from Screen : $result');
-                        }
-                      },
-                      child: TextFormField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                            labelText: quizfileLink == null
-                                ? 'Add MCQ'
-                                : quizfileLink!),
-                      ),
-                    )
+                  : Column(
+                    children: [
+                       TextField(
+                keyboardType: TextInputType.number,
+                controller: durationController,
+                decoration: InputDecoration(labelText: 'Duration in minute'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+                      GestureDetector(
+                          onTap: () async {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      QuizInputPagewithExplanation(quizfileLink: quizfileLink,)),
+                            );
+                      
+                            if (result != null) {
+                              setState(() {
+                                quizfileLink = result;
+                              });
+                              debugPrint('Received data from Screen : $result');
+                            }
+                          },
+                          child: TextFormField(
+                            enabled: false,
+                            decoration: InputDecoration(
+                                labelText: quizfileLink == null
+                                    ? 'Add MCQ'
+                                    : quizfileLink!),
+                          ),
+                        ),
+                    ],
+                  )
             ],
           ),
         ),

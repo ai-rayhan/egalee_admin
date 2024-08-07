@@ -91,7 +91,8 @@ class AllTopicScreen extends StatelessWidget {
                                       builder: (context) => AddTopicScreen(
                                         topic: Topic(
                                           id: subDocumentId,
-                                          title:subDocument['title'],description: subDocument['description'] ,videoLink: subDocument['videoLink'],pdfLink:  subDocument['pdfLink'],mcqlink: subDocument['quizLink']),
+                                          title:subDocument['title'],description: subDocument['description'] ,videoLink: subDocument['videoLink'],pdfLink:  subDocument['pdfLink'],mcqlink: subDocument['quizLink'],
+                                          duration: (subDocument.data() as Map<String, dynamic>).containsKey('duration') ? subDocument['duration'] : null,),
                                         groupName: groupName,
                                         subjectId: subjectId,
                                         subjectName: subjectName,

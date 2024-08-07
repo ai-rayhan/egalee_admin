@@ -5,6 +5,7 @@ class Topic {
   final String? pdfLink;
   final String? title;
   final String? mcqlink;
+  final String? duration;
 
   Topic({
     required this.id,
@@ -12,5 +13,6 @@ class Topic {
      this.videoLink,
      this.pdfLink,
      this.title,
-     this.mcqlink
+     this.mcqlink,
+     this.duration
   });}

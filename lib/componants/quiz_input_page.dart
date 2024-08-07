@@ -2,10 +2,16 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:egalee_admin/componants/dialogs/custom_alert.dart';
+import 'package:egalee_admin/componants/dialogs/deleting_dialog.dart';
+import 'package:egalee_admin/data/firebase_caller/storage/delete.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart'as http;
 
 class QuizInputPage extends StatefulWidget {
+  final String? quizfileLink;
+  QuizInputPage({this.quizfileLink});
+
   @override
   _QuizInputPageState createState() => _QuizInputPageState();
 }
@@ -18,12 +24,50 @@ class _QuizInputPageState extends State<QuizInputPage> {
   TextEditingController option4Controller = TextEditingController();
   TextEditingController correctAnswerController = TextEditingController();
 
-  List<Map<String, String>> questions = [];
+  List<Map<String, dynamic>> questions = [];
+  bool isLoading=true;
+fetchData() async {
+    try {
+      if(widget.quizfileLink==null){
+        isLoading=false;
+        setState(() {
+          
+        });
+        return;
+      }
+      http.Response response = await http.get(Uri.parse(widget.quizfileLink!));
 
+      if (response.statusCode == 200) {
+       String responseBody =
+            utf8.decode(response.bodyBytes); // Decode using UTF-8
+
+        List<dynamic> parsedList = jsonDecode(responseBody); List<Map<String, dynamic>> formattedList =
+            parsedList.map((item) => item as Map<String, dynamic>).toList();
+
+        setState(() {
+          questions = formattedList;
+        });
+         print('Failed to load data: $questions');
+      } else {
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Exception while fetching data: $e');
+    }
+        setState(() {
+      isLoading = false;
+    });
+  }
+  @override
+  void initState() {
+  fetchData();
+   super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Quiz Questions'),
         actions: [
           IconButton(
@@ -35,6 +79,9 @@ class _QuizInputPageState extends State<QuizInputPage> {
                 title: 'Confirmation',
                 content: 'Are you sure you want to perform this action?',
                 onOkPressed: () {
+                  Navigator.pop(context);
+                  showLoadingDialog(context);
+                  FiledeleteUtils.deleteImageFromFirebaseStorage(widget.quizfileLink);
                   saveQuestionsToFirebaseStorage(context);
                   print('OK button pressed! Execute specific action.');
                   // Call any function or perform any task you want here
@@ -51,15 +98,18 @@ class _QuizInputPageState extends State<QuizInputPage> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: questions.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(questions[index]['question']!),
-            subtitle:
-                Text('Correct Answer: ${questions[index]['correctAnswer']}'),
-          );
-        },
+      body: PopScope(
+        // canPop: false,
+        child: ListView.builder(
+          itemCount: questions.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(questions[index]['question']!),
+              subtitle:
+                  Text('Correct Answer: ${questions[index]['correctAnswer']}'),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -162,7 +162,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => QuizInputPage()),
+                        builder: (context) => QuizInputPage(quizfileLink: quizfileLink,)),
                   );
 
                   if (result != null) {
