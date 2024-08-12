@@ -52,8 +52,8 @@ class BooksCategoriesScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SuggestionScreen(
-                                  categoryDocId: document.id,
+                            builder: (context) => SubCategoriesScreen(
+                                   categoryId:document.id,
                                 )),
                       );
                     },
@@ -64,7 +64,7 @@ class BooksCategoriesScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AddBooksCategoryScreen(title:document['title'] ,),
+                              builder: (context) => AddBooksCategoryScreen(title:document['title'],categoryId:document.id),
                             ),
                           );
                           },

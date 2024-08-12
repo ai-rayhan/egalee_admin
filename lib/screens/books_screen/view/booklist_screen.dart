@@ -4,21 +4,20 @@ import 'package:egalee_admin/componants/dialogs/deleting_dialog.dart';
 import 'package:egalee_admin/models/book.dart';
 import 'package:egalee_admin/screens/books_screen/add.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BookListScreen extends StatelessWidget {
   final String categorydocId;
-  final String suggetionName;
+  final String subcategorydocId;
 
   const BookListScreen(
-      {Key? key, required this.categorydocId, required this.suggetionName})
+      {Key? key, required this.categorydocId, required this.subcategorydocId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(suggetionName),
+        title: Text("All-Books"),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -28,7 +27,7 @@ class BookListScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => AddBooksScreen(
                     documentId: categorydocId,
-                    suggetionCollectionName: suggetionName,
+                    subDocumentId: subcategorydocId,
                   ),
                 ),
               );
@@ -39,8 +38,10 @@ class BookListScreen extends StatelessWidget {
       body: FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('books')
-            .doc(categorydocId)
-            .collection(suggetionName)
+          .doc(categorydocId)
+          .collection('subcategory')
+          .doc(subcategorydocId)
+          .collection('allbooks')
             .orderBy('timestamp', descending: true)
             .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -89,7 +90,7 @@ class BookListScreen extends StatelessWidget {
                                                 MaterialPageRoute(
                                                   builder: (context) => AddBooksScreen(
                                                     documentId: categorydocId,
-                                                    suggetionCollectionName: suggetionName,
+                                                    subDocumentId: subcategorydocId,
                                                     book: Book(
                                                       id: subDocumentId,
                                                       title: subDocument['title'],pdflink: subDocument['description'],imagelink: subDocument['pdfLink'],price: subDocument['videoLink'],writerName: subDocument['subtitle']),
@@ -118,7 +119,9 @@ class BookListScreen extends StatelessWidget {
       await FirebaseFirestore.instance
           .collection('books')
           .doc(categorydocId)
-          .collection(suggetionName)
+          .collection('subcategory')
+          .doc(subcategorydocId)
+          .collection('allbooks')
           .doc(id)
           .delete();
 

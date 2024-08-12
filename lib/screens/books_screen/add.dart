@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,8 +8,10 @@ import 'package:egalee_admin/utlils/utlils.dart';
 import 'package:flutter/material.dart';
 
 class AddBooksCategoryScreen extends StatefulWidget {
+final String? categoryId;
+final String? subcategoryId;
 
-  AddBooksCategoryScreen({super.key, required this.title});
+  AddBooksCategoryScreen({super.key, required this.title,  this.categoryId, this.subcategoryId,});
  final String title;
   @override
   State<AddBooksCategoryScreen> createState() => _AddBooksCategoryScreenState();
@@ -31,6 +34,21 @@ class _AddBooksCategoryScreenState extends State<AddBooksCategoryScreen> {
       // Handle error according to your app's requirements
     });
   }
+  void _updateCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance.collection('books').doc(widget.categoryId).update({
+      'title': titleController.text,
+      // 'subtitle': subtitleController.text,
+      // 'imageLink': imageLinkController.text,
+      // Add other fields as needed
+    }).then((value) {
+      // Document successfully added
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error adding document
+      // Handle error according to your app's requirements
+    });
+  }
+  
 @override
   void initState() {
     titleController.text=widget.title;
@@ -38,13 +56,22 @@ class _AddBooksCategoryScreenState extends State<AddBooksCategoryScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    log(widget.categoryId.toString());
+    log(widget.subcategoryId.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Book Category'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: () => _addCollectionDocument(context),
+            onPressed: () {
+                if(widget.categoryId==null){
+                 _addCollectionDocument(context);
+                }else{
+                 _updateCollectionDocument(context);
+                }
+              
+            },
           ),
         ],
       ),
@@ -72,16 +99,112 @@ class _AddBooksCategoryScreenState extends State<AddBooksCategoryScreen> {
     );
   }
 }
+class AddSubCategoryScreen extends StatefulWidget {
+  final String? categoryId;
+  final String? subcategoryId;
+  final String title;
+
+  AddSubCategoryScreen({super.key, required this.title, this.categoryId, this.subcategoryId});
+
+  @override
+  State<AddSubCategoryScreen> createState() => _AddSubCategoryScreenState();
+}
+
+class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
+  final TextEditingController titleController = TextEditingController();
+
+  void _addSubCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance
+        .collection('books')
+        .doc(widget.categoryId)
+        .collection('subcategory')
+        .add({
+      'title': titleController.text,
+      // 'subtitle': subtitleController.text,
+      // 'imageLink': imageLinkController.text,
+      // Add other fields as needed
+    }).then((value) {
+      // Document successfully added
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error adding document
+      // Handle error according to your app's requirements
+    });
+  }
+
+  void _updateSubCollectionDocument(BuildContext context) {
+    FirebaseFirestore.instance
+        .collection('books')
+        .doc(widget.categoryId)
+        .collection('subcategory')
+        .doc(widget.subcategoryId)
+        .update({
+      'title': titleController.text,
+      // 'subtitle': subtitleController.text,
+      // 'imageLink': imageLinkController.text,
+      // Add other fields as needed
+    }).then((value) {
+      // Document successfully updated
+      Navigator.pop(context); // Close the current screen
+    }).catchError((error) {
+      // Error updating document
+      // Handle error according to your app's requirements
+    });
+  }
+
+  @override
+  void initState() {
+    titleController.text = widget.title;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    log(widget.categoryId.toString());
+    log(widget.subcategoryId.toString());
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add Book Category'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              if (widget.subcategoryId == null) {
+                _addSubCollectionDocument(context);
+              } else {
+                _updateSubCollectionDocument(context);
+              }
+            },
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(labelText: 'Title'),
+            ),
+            // Add more TextFields for additional fields if needed
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 
 class AddBooksScreen extends StatefulWidget {
   final String documentId;
-  final String suggetionCollectionName;
+  final String subDocumentId;
   final Book? book;
 
   AddBooksScreen(
       {Key? key,
       required this.documentId,
-      required this.suggetionCollectionName, this.book})
+      required this.subDocumentId, this.book})
       : super(key: key);
 
   @override
@@ -101,9 +224,11 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
 
   void _addSubCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance
-        .collection('books')
-        .doc(widget.documentId)
-        .collection(widget.suggetionCollectionName)
+         .collection('books')
+          .doc(widget.documentId)
+          .collection('subcategory')
+          .doc(widget.subDocumentId)
+          .collection('allbooks')
         .add({
       'title': titleController.text,
       'subtitle':writerController.text,
@@ -123,8 +248,10 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
   void _updateSubCollectionDocument(BuildContext context) {
     FirebaseFirestore.instance
         .collection('books')
-        .doc(widget.documentId)
-        .collection(widget.suggetionCollectionName)
+          .doc(widget.documentId)
+          .collection('subcategory')
+          .doc(widget.subDocumentId)
+          .collection('allbooks')
         .doc(widget.book?.id).update ({
       'title': titleController.text,
       'subtitle':writerController.text,
