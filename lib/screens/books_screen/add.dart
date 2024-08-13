@@ -219,6 +219,8 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
   final TextEditingController pdflinkController = TextEditingController();
 
   final TextEditingController priceController = TextEditingController();
+  final TextEditingController codController = TextEditingController();
+  final TextEditingController deliveryChargeController = TextEditingController();
 
   // final TextEditingController pdfLinkController = TextEditingController();
 
@@ -232,14 +234,17 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
         .add({
       'title': titleController.text,
       'subtitle':writerController.text,
+      'cod':codController.text,
+      'charge':deliveryChargeController.text,
       'description': pdflinkController.text,
       'videoLink': priceController.text,
       'pdfLink': imagelink,
       'timestamp': Timestamp.fromDate(DateTime.now()),
       // Add other fields as needed
     }).then((value) {
-        sendPushNotification(titleController.text, writerController.text);
-      Navigator.pop(context); // Close the current screen
+      log('Saved 000');
+        // sendPushNotification(titleController.text, writerController.text);
+      // Navigator.pop(context); // Close the current screen
     }).catchError((error) {
       // Error adding document
       // Handle error according to your app's requirements
@@ -255,6 +260,8 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
         .doc(widget.book?.id).update ({
       'title': titleController.text,
       'subtitle':writerController.text,
+      'cod':codController.text,
+      'charge':deliveryChargeController.text,
       'description': pdflinkController.text,
       'videoLink': priceController.text,
       'pdfLink': imagelink,
@@ -294,6 +301,8 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
     pdflinkController.text=widget.book?.pdflink??'';
     writerController.text=widget.book?.writerName??'';
     priceController.text=widget.book?.price??'';
+    codController.text=widget.book?.cod??'';
+    deliveryChargeController.text=widget.book?.charge??'';
     imagelink=widget.book?.imagelink??'pick image';
     super.initState();
   }
@@ -340,6 +349,20 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
               TextField(
                 controller: priceController,
                 decoration: const InputDecoration(labelText: 'Price'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: codController,
+                decoration: const InputDecoration(labelText: 'COD Amount'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: deliveryChargeController,
+                decoration: const InputDecoration(labelText: 'Delivery charge'),
               ),
               const SizedBox(
                 height: 10,
