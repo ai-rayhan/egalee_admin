@@ -83,7 +83,7 @@ class TopicListScreen extends StatelessWidget {
             .collection('ilts')
             .doc(documentId)
             .collection('topics')
-            .orderBy('timestamp', descending: true)
+            .orderBy('timestamp',)
             .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

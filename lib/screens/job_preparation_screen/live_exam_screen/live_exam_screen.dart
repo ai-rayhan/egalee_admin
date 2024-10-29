@@ -32,6 +32,7 @@ class LiveExamSubjectScreen extends StatelessWidget {
               .collection('jobprep')
               .doc(groupName)
               .collection('allexam')
+              .orderBy("timestamp")
               .get(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

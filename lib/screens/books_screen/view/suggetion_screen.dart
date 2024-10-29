@@ -33,6 +33,7 @@ class SubCategoriesScreen extends StatelessWidget {
           .collection('books')
           .doc(categoryId)
           .collection('subcategory')
+          .orderBy("title")
           .get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

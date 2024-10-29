@@ -28,7 +28,7 @@ class BooksCategoriesScreen extends StatelessWidget {
         ],
       ),
       body: FutureBuilder(
-        future: FirebaseFirestore.instance.collection('books').get(),
+        future: FirebaseFirestore.instance.collection('books').orderBy("title").get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

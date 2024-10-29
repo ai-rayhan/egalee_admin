@@ -73,7 +73,8 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                   TextField(
                     controller: numberController,
                     decoration: InputDecoration(labelText: 'Number'),
-                    keyboardType: TextInputType.number,
+                    maxLines: 2,
+                    // keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 16),
                   ElevatedButton(

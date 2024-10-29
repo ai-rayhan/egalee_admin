@@ -17,6 +17,7 @@ class BookBuyRequestScreen extends StatelessWidget {
               .collection('admin')
               .doc('allunlockCourseRequests')
               .collection('bookUnlockRequests')
+              .orderBy("timestamp")
               .get(),
           builder: (BuildContext context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -36,21 +37,38 @@ class BookBuyRequestScreen extends StatelessWidget {
                     child: ListTile(
                       title: Text('Title: ${data['title']}'),
                       subtitle:
-                          Text('${data['userId']},${data['transactionNo']},'),
-                      trailing: ElevatedButton(
-                        onPressed: () async {
-                          await approveRequest(document.id, data['userId'],
-                              data['bookId'], data);
-                          Navigator.pop(context);
-                          Navigator.push<void>(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const BookBuyRequestScreen(),
+                          Text('Writer:${data['writer']}\nRequest From: ${data['senderNo']}\nTransection ID: ${data['transactionNo']}'),
+                      trailing: SizedBox(
+                        width: 90,
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: ()async{
+                             await deleteRequest(document.id, data['userId'],
+                                    data['bookId'],);
+                                Navigator.pop(context);
+                            }, child: Icon(Icons.delete,color: Colors.red,)),
+                            SizedBox(width: 10,),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: IconButton(
+                                onPressed: () async {
+                                  await approveRequest(document.id, data['userId'],
+                                      data['bookId'], data);
+                                  Navigator.pop(context);
+                                  Navigator.push<void>(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          const BookBuyRequestScreen(),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.check_circle,size: 30,color: Colors.green,),
+                              ),
                             ),
-                          );
-                        },
-                        child: Text('Accept'),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -97,6 +115,29 @@ approveRequest(String requestId, String userId, String bookId,
       // Handle if the request doesn't exist or already processed
       return false;
     }
+  } catch (e) {
+    print(e);
+    // Handle errors
+    return false;
+  }
+}
+deleteRequest(String requestId, String userId, String bookId) async {
+  try {
+    // Get reference to the specific request in admin's collection
+    DocumentReference requestRef = _firestore
+        .collection('admin')
+        .doc('allunlockCourseRequests')
+        .collection('bookUnlockRequests')
+        .doc(requestId);
+    DocumentReference userOrderref = _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('orderbooks')
+        .doc(bookId);
+    // Get the request details
+  await requestRef.delete();
+  await userOrderref.delete();
+  return true;
   } catch (e) {
     print(e);
     // Handle errors

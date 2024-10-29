@@ -44,6 +44,7 @@ class AllTopicScreen extends StatelessWidget {
               .collection('allSubject')
               .doc(subjectId)
               .collection('alltopics')
+              .orderBy("timestamp")
               .get(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

@@ -35,6 +35,7 @@ class AllSubjectScreen extends StatelessWidget {
               .collection('jobprep')
               .doc(groupName)
               .collection('allSubject')
+              .orderBy("title")
               .get(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

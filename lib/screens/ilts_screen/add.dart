@@ -154,7 +154,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
     titleController.text=widget.topic?.title??'';
     descriptionController.text=widget.topic?.description??'';
     videoLinkController.text=widget.topic?.videoLink??'';
-    imagelink=widget.topic?.pdfLink??'pick a image';
+    imagelink=widget.topic?.pdfLink??'Pick a PDF';
   
     super.initState();
   }
@@ -215,7 +215,7 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
                 enabled: false,
                 decoration: InputDecoration(
                     labelText:
-                        imagelink == null ? 'Pick a image' : '$imagelink'),
+                        imagelink == null ? 'Pick a PDF' : '$imagelink'),
               ),
             ),
             // Add more TextFields for additional fields if needed

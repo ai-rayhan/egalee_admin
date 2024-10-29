@@ -23,6 +23,7 @@ class _RequestAcceptScreenState extends State<RequestAcceptScreen> {
         .collection('admin')
         .doc('allunlockCourseRequests')
         .collection('unlockCourseRequests')
+        // .orderBy("timestamp")
         .get();
 
     return querySnapshot.docs;
@@ -72,6 +73,23 @@ class _RequestAcceptScreenState extends State<RequestAcceptScreen> {
           .delete();
     }
   }
+  deleteRequest(String requestId, String userId)async{
+     // Remove the request from 'unlockCourseRequests' collection
+      await _firestore
+          .collection('admin')
+          .doc('allunlockCourseRequests')
+          .collection('unlockCourseRequests')
+          .doc(requestId)
+          .delete();
+
+      // Remove the request from the user's 'orders' collection
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('orders')
+          .doc(requestId)
+          .delete();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,22 +119,41 @@ class _RequestAcceptScreenState extends State<RequestAcceptScreen> {
                   child: ListTile(
                     title: Text('Course Name: ${requestDataMap['courseName']}'),
                     subtitle: Text(
-                        'Category: ${requestDataMap['courseCategoryName']}'),
+                        'Category: ${requestDataMap['courseCategoryName']}\n Request From: ${requestDataMap['number']}\nTransection ID: ${requestDataMap['transationId']}'),
                     // Display other details as needed
-                    trailing: ElevatedButton(
-                      onPressed: () async {
-                        await acceptRequest(
-                            requestData.id, requestDataMap['userId']);
-                        Navigator.pop(context);
-                          Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) =>
-                        const RequestAcceptScreen(),
-                  ),
-                );
-                      },
-                      child: Text('Accept'),
+                    trailing: SizedBox(
+                      width: 90,
+                      child: Row(
+                        children: [
+                           InkWell(
+                            onTap: () async {
+                            await deleteRequest(requestData.id, requestDataMap['userId']);
+                             Navigator.pop(context);
+                            },
+                           child: Icon(Icons.delete,color: Colors.red,),
+                          ),
+                          SizedBox(width: 10,),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: IconButton(
+                              onPressed: () async {
+                                await acceptRequest(
+                                    requestData.id, requestDataMap['userId']);
+                                Navigator.pop(context);
+                                  Navigator.push<void>(
+                                              context,
+                                              MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const RequestAcceptScreen(),
+                                              ),
+                                            );
+                              },
+                               icon: Icon(Icons.check_circle,size: 30,color: Colors.green,),
+                            ),
+                          ),
+                         
+                        ],
+                      ),
                     ),
                   ),
                 );
