@@ -56,33 +56,33 @@ Future<void> sendPushNotification(title, body) async {
   }
 }
 
-Future<void> sendNotification(title, body, to) async {
-  //set fcm token
-  const fcmToken = 'YOUR_FCM_TOKEN_HERE';
+// Future<void> sendNotification(title, body, to) async {
+//   //set fcm token
+//   const fcmToken = 'YOUR_FCM_TOKEN_HERE';
 
-  try {
-    var url = 'https://fcm.googleapis.com/fcm/send';
-    var header = {
-      'Content-Type': 'application/json',
-      'Authorization': 'key=$fcmToken',
-    };
-    var request = {
-      'notification': {
-        'title': title,
-        'body': body,
-      },
-      'priority': 'high',
-      'to': '$to',
-    };
+//   try {
+//     var url = 'https://fcm.googleapis.com/fcm/send';
+//     var header = {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'key=$fcmToken',
+//     };
+//     var request = {
+//       'notification': {
+//         'title': title,
+//         'body': body,
+//       },
+//       'priority': 'high',
+//       'to': '$to',
+//     };
 
-    var response = await http.post(
-      Uri.parse(url),
-      headers: header,
-      body: json.encode(request),
-    );
+//     var response = await http.post(
+//       Uri.parse(url),
+//       headers: header,
+//       body: json.encode(request),
+//     );
 
-    print(response.body);
-  } catch (error) {
-    print(error);
-  }
-}
+//     print(response.body);
+//   } catch (error) {
+//     print(error);
+//   }
+// }

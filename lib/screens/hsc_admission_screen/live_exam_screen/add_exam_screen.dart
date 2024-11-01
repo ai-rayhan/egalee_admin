@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:egalee_admin/componants/explanation_quiz_create.dart';
 import 'package:egalee_admin/componants/quiz_input_page.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:flutter/material.dart';
@@ -162,7 +163,7 @@ class _AddExamScreenState extends State<AddExamScreen> {
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => QuizInputPage(quizfileLink: quizfileLink,)),
+                        builder: (context) => QuizInputPagewithExplanation(quizfileLink: quizfileLink,)),
                   );
 
                   if (result != null) {

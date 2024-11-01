@@ -1,4 +1,5 @@
 import 'package:egalee_admin/models/topic.dart';
+import 'package:egalee_admin/screens/skill_career_screen/common_screen/view/all_subject_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -16,7 +17,15 @@ class SkillCareerModuleScreen extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => GestureDetector(
                   onTap: () {
-                    Navigator.push<void>(
+                    if(modules[index].moduleName=="Freelancing"){
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => AllSubjectScreen(groupName: "Freelancing"),
+                        ),
+                      );
+                    }else{
+                      Navigator.push<void>(
                       context,
                       MaterialPageRoute<void>(
                         builder: (BuildContext context) => TopicListScreen(
@@ -26,6 +35,8 @@ class SkillCareerModuleScreen extends StatelessWidget {
                         ),
                       ),
                     );
+                    }
+                    
                   },
                   child: ListTile(
                   leading: Icon(modules[index].moduleIcon),

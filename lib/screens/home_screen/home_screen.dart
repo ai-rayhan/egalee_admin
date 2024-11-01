@@ -5,6 +5,7 @@ import 'package:egalee_admin/screens/ilts_screen/view.dart';
 import 'package:egalee_admin/screens/login_screen.dart';
 import 'package:egalee_admin/screens/common_data_screen/slider_image_upload_screen.dart';
 import 'package:egalee_admin/screens/common_data_screen/update_contact_info.dart';
+import 'package:egalee_admin/screens/notifications/view.dart';
 import 'package:egalee_admin/screens/payment_details/payment_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -149,6 +150,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
                         const BookBuyRequestScreen(),
+                  ),
+                );
+              },
+            ),
+            HomeOptionCard(
+              title: 'Notifications',
+              icon: Icons.notification_add,
+              ontap: () {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>  NotificationScreen(),
                   ),
                 );
               },

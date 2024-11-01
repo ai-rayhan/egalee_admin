@@ -131,8 +131,9 @@ class _AddTopicScreenState extends State<AddTopicScreen> {
   }
 
   bool nonmcq() {
-    if (widget.groupName == 'Written Preparation' ||
-        widget.groupName == 'Video section' ||
+    if (
+       // widget.groupName == 'Written Preparation' ||
+        // widget.groupName == 'Video section' ||
         widget.groupName == 'PDF section') {
       return true;
     } else {

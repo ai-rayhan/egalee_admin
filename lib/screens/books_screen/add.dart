@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:egalee_admin/data/firebase_caller/storage/upload.dart';
 import 'package:egalee_admin/models/book.dart';
+import 'package:egalee_admin/utlils/utlils.dart';
 import 'package:flutter/material.dart';
 
 class AddBooksCategoryScreen extends StatefulWidget {
@@ -242,8 +243,8 @@ class _AddBooksScreenState extends State<AddBooksScreen> {
       // Add other fields as needed
     }).then((value) {
       log('Saved 000');
-        // sendPushNotification(titleController.text, writerController.text);
-      // Navigator.pop(context); // Close the current screen
+        sendPushNotification(titleController.text, writerController.text);
+      Navigator.pop(context); // Close the current screen
     }).catchError((error) {
       // Error adding document
       // Handle error according to your app's requirements
